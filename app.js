@@ -52,9 +52,7 @@ function checkToken(req){
 	if(!token) return;
 	try{
 		var decoded = jwt.decode(token, app.get('jwtTokenSecret'));
-		if (decoded.exp <= Date.now()) {
-			return false;
-		}
+		if (decoded.exp <= Date.now()) return false;
 		return decoded;
 	}
 	catch(err){

@@ -57,6 +57,7 @@
 			this.value = this.value;
 			this.setSize();
 			this.getOption=(index)=>this.el.querySelector(`option:nth-of-type(${index})`);
+			if(this.onload) this.onload();
 		});
 	}
 	zjSelectPro.attributeChangedCallback=function(attrName, oldVal, newVal){

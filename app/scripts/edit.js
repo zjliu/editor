@@ -130,7 +130,7 @@ function notify(title,body){
 		'javascript':'js',
 		'css':'css',
 		'text/html':'html',
-		'text/x-markdown':'md'
+		'markdown':'md'
 	};
 
 	function setTitle(value){
@@ -140,13 +140,9 @@ function notify(title,body){
 		changeMode.bind(lang)();
 	}
 
-	function getTitle(){
-		return titleEl.value;
-	}
+	function getTitle(){ return titleEl.value; }
 
-	function getType(){
-		return document.getElementById('articleType').value;
-	}
+	function getType(){ return document.getElementById('articleType').value; }
 
 	var defColor = '#000000';
 
@@ -155,15 +151,25 @@ function notify(title,body){
 		if(this.value==="markdown"){
 			editor.setOption("theme","default");
 			Q('.CodeMirror').style.backgroundColor = "#ffffff";
+			setBlogView();
 		}
 		else{
 			editor.setOption("theme","3024-night");
 			Q('.CodeMirror').classList.remove('markdown');
 			Q('.CodeMirror').style.backgroundColor = "#000000";
 		}
+		document.body.className = this.value;
+	}
+
+	function setBlogView(){
+		if(lang.value != 'markdown') return;
+		var viewBlogEl = Q('.view-blog');
+		viewBlogEl.classList[aid && 'remove' || 'add']('new_markdown');
+		if(aid) viewBlogEl.setAttribute('href',`/article/${aid}?type=md`);
 	}
 
 	lang.onchange = changeMode;
+	changeMode.bind({'value':'javascript'})();
 
 	function changeColor(){
 		Q('.CodeMirror').style.backgroundColor=this.value;
@@ -405,6 +411,10 @@ function notify(title,body){
 			var data={'ok':'确定','cancel':'取消','list':null,'title':getTitle()||'','cid':cid||''};
 			var content = encodeURIComponent(getValue());
 			var mdata = {'content':content};
+			function complete_callback(container){
+				var sel = container.querySelector('#articleCategory');
+				sel.onload=()=>sel.value=lang.value;
+			}
 			dialog.openFromTemplate(data,'saveAsTemplate',300,200,function(isOk){
 				if(!isOk) return;
 				mdata.cid = G('articleCategory').value;
@@ -421,10 +431,11 @@ function notify(title,body){
 						if(data.success) {
 							aid = data.data.aid;
 							win.history.pushState({},document.title,`/editor/${data.data.aid}`);
+							setBlogView();
 						}
 					}
 				});
-			});
+			},complete_callback);
 		},
 		delete:function(){
 			hideContextMenu();

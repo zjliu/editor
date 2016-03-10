@@ -39,7 +39,7 @@ var Dialog=(function(win){
 				opt.maskEl.style.display='none';
 			},500);
 		},
-		openFromTemplate:function(data,tempId,width,height,callback){
+		openFromTemplate:function(data,tempId,width,height,callback,complete_callback){
 			var opt = this.opt;
 			if(width) opt.dialogEl.style.width = width + 'px';
 			if(height) opt.dialogEl.style.height = height + 'px';
@@ -48,6 +48,7 @@ var Dialog=(function(win){
 			applyTemplate(data,tempId,container);
 			this.show();
 			this.addEvent(callback);
+			complete_callback && complete_callback(container);
 		},
 		addEvent:function(closeCallback){
 			var opt = this.opt;

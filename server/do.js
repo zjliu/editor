@@ -104,7 +104,7 @@ function doArticle(type,min,value,articleData,res){
 				var MarkdownIt = require('markdown-it'),
 					md = new MarkdownIt();
 					value = md.render(value);
-				value = createBlog(articleData.title,value,articleData.cdate,articleData.udate);
+				value = createBlog(articleData.title,value,articleData.cdate,articleData.udate,articleData.aid);
 			}catch(e){
 				console.log(e.message);
 			}
@@ -123,7 +123,7 @@ function doArticle(type,min,value,articleData,res){
 
 function getSrc(filename,callback,res){
 	queryArticleType(function(arr){
-		var sql = `select cid,content from article where title='${filename}'`;
+		var sql = `select aid,cid,content from article where title='${filename}'`;
 		query(sql,function(data){
 			if(data && data.length){
 				var articleData = data[0];
@@ -138,7 +138,7 @@ function getSrc(filename,callback,res){
 }
 
 function getArticle(aid,callback,queryObj,res){ 
-	var sql = `select title,content,cid,cdate,udate from article where aid=${aid}`;
+	var sql = `select aid,title,content,cid,cdate,udate from article where aid=${aid}`;
 	var type = queryObj.type;
 	var min = queryObj.min === "true";
 	var blog = queryObj.blog === "true";
@@ -293,7 +293,7 @@ function template(tempStr,dataParam){
 }
 
 
-function createBlog(title,content,cdate,udate){
+function createBlog(title,content,cdate,udate,aid){
 	//去除对html标签的转义
 	content = content.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&nbsp;/g,' ');
 	//添加目录
@@ -326,6 +326,10 @@ function createBlog(title,content,cdate,udate){
 			</head>
 			<body>
 				<div id="top"></div>
+				<section class="editor">
+					<a class="editor-edit" href="/editor/<%=data.aid%>">编辑</a>
+					<a class="editor-list" href="/articles">列表</a>
+				</section>
 				<article>
 					<p class="check_menu_p"><label for="check_menu">目录</label></p>
 					<input type="checkbox" id="check_menu" />
@@ -338,7 +342,7 @@ function createBlog(title,content,cdate,udate){
 			<script src="/src/markdown_blog.js"></script>
 		</html>
 	`;
-	return template(htmlTemplate)({title,content,cdate,udate,menu});
+	return template(htmlTemplate)({title,content,cdate,udate,menu,aid});
 }
 
 function getPenList(param,callback){
