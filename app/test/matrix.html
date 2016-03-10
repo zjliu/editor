@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Editor</title>
+    <link href="styles/reset.css" rel="stylesheet" />
+	<script src="scripts/animator.js"></script>
+	<style>
+		html,body{
+			width:100%;
+			height:100%;
+		}
+	</style>
+</head>
+<body>
+<pre>
+<p>图形变换，不管是2维平面图形,还是三维立体图形,变换都是把图形中
+	每一个点都进行变换操作，得到的点组成的图形就是变换后的图形,
+	所以，图形变换，实质是点的变换。
+</p>
+一、rotate旋转
+   1、点(x1,y1)绕原点(0,0) 旋转Q角度后，求变换后的坐标(x,y):
+   点(x1,y1)与(x,y) 到原点的长度都为:
+	var L=Math.sqrt(x1*x1+y1+y1)=Math.sqrt(x*x,y*y); (1);
+	设定(x,y)点与原点的角度为T,(x1,y1)点与原点角度为Q1
+	则：T = Q1 + Q; (2);
+	则(1)与(2)得：
+		x = cos(T)*L = cos(Q1+Q)*L = (cos(Q1)*cos(Q)-sin(Q1)*sin(Q))*L;
+		y = sin(T)*L;= sin(Q1+Q)*L = (sin(Q1)*cos(Q)+cos(Q1)*sin(Q))*L;
+		cos(Q1) = x1/L;
+		sin(Q1) = y1/L;
+	由上面公式得:
+		x = cos(Q)*x1-sin(Q)*y1;
+		y = sin(Q)*x1+cos(Q)*y1;
+
+	及：
+		    [cos(Q) -sin(Q)]   [x1]
+	[x,y] =				     *
+			[sin(Q)  cos(Q)]   [y1]
+	所以旋转变换的矩阵为
+		[cos(Q),-sin(Q)]
+		[sin(Q), cos(Q)]
+	扩充成3*3[x1,y1变换z1不变]的为:
+		[cos(Q),-sin(Q),  0]
+		[sin(Q), cos(Q),  0]
+		[0	   , 0     ,  1]
+	写成css3 Matix
+		transform:matrix(cos(Q),-sin(Q),sin(Q),cos(Q),0,0);
+		也就是说，缩放变换是matrix前四个值，且范围者是0<=s<=1。
+
+	2、如果是绕(tx,ty)点旋转,也就是(tx,ty)是旋转中心，也就是变换
+		的原点，是可理解为先平移到原点，旋转后再平移 (tx,ty)就成了,
+		缩放也是如此,所以旋转中心与缩放中心操作都是这样
+		matrix.translate(-tx,-ty);　平移到原点
+		matrix.rotate(Q);			进行变换
+		matrix.translate(tx,ty);	平移回原位置
+		经过这样，就表现为绕 (tx,ty)　进行变换了
+二、scale缩放
+	一个图形以原点(0,0)进行缩放是怎么做的呢？很简单,把这个图形
+	上所有的点到原点的长度进行缩放,图形上一个点设置为(x1,y1),以原点
+	为中心缩放 t倍(0<t<1时为缩小，t>1时为放大),得到点(x,y)。
+		x = t*x1;
+		y = t*y1;
+	上面是x轴与y轴缩放相同的t倍,如果x,y轴缩放不同的倍数:
+		点 (x1,y1) 缩放　(mx,my) 倍,则有:
+		x = mx*x1;
+		y = my*y1;
+	        
+			[mx , 0]   [x1]
+	[x,y] =          *	 
+	        [0  ,my]   [y1]
+
+	扩充成三维点(x,y,z)变换为:
+	          [mx,  0, 0]   [x1]
+	[x,y,z] = [0 , my, 0] * [y1]
+			  [0 , 0 , 1]   [z1]
+	
+三、skew变形(拉伸)
+	无论是旋转还是缩放，其实图形的样子是没变的。
+	以x轴拉伸:保持高度不变，拉伸宽度Q角
+	以y轴拉伸:保持宽度不变，拉伸高度Q度
+	点(x1,y1)位伸(Qx,Qy)度,则:
+	1、x轴拉伸
+		点(0,y1) 拉伸后　x,y
+			x/y1 = tan(Qx);
+		得 x = tan(Qx)*y1;
+		(x1,y1) 拉伸后x值就是点 (0,y1)拉伸后加上原来x1值:
+		x = x1 + tan(Qx)*y1;
+		y = y1;
+	2、y轴拉伸
+		点(x1,0) 拉伸后　x,y
+			y/x1 = tan(Qy);
+		得到 y = tan(Qy)*x1;
+	同理:(x1,y1) 拉伸后y值就是点 (x1,0)拉伸后加上原来y1值:
+		x = x1;
+		y = y1 + tan(Qy)*x1;
+
+	合并后得: 点(x1,y1)位伸(Qx,Qy)度,得:
+		x = x1 + tan(Qx)*y1;
+		y = y1 + tan(Qy)*x1;
+
+			[1 , tan(Qx)]   [x1]
+	[x,y] =				  *  
+			[tan(Qy) , 1]	[y1]
+
+	扩充成三维点(x,y,z)变换为
+		
+			  [		 1,tan(Qx),	0]	 [x1]
+	[x,y,z] = [tan(Qy),		 1, 0] * [y1]
+			  [		 0,		 0, 1]	 [z1]
+	
+四、对称
+	x = -x1;
+	y = -y1;
+
+
+</pre>
+</body>
+</html>
+<script>
+</script>

@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Editor</title>
+    <link href="/styles/reset.css" rel="stylesheet" />
+	<!--codemirror-->
+    <link href="/scripts/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="/scripts/codemirror/theme/3024-night.css" rel="stylesheet" />
+	<link href="/scripts/codemirror/addon/fold/foldgutter.css" rel="stylesheet" />
+	<script src="/scripts/codemirror/lib/codemirror.js"></script>
+	<script src="/scripts/codemirror/lib/codemirror-plugins.js"></script>
+	<!--menu-->
+    <link href="/styles/menu.css" rel="stylesheet" />
+	<script src="/scripts/AjaxUtil.js"></script>
+	<!--contentmenu-->
+    <link href="/styles/contextmenu.css" rel="stylesheet" />
+	<!--login-->
+    <link href="/styles/login.css" rel="stylesheet" />
+	<!--dialog-->
+    <link href="/styles/dialog.css" rel="stylesheet" />
+	<script src="/scripts/dialog.js"></script>
+	<!--layout-->
+    <link href="/styles/layout.css" rel="stylesheet" />
+	<!--download-->
+    <script src="/scripts/download.js"></script>
+	<!-- template.js -->
+	<script src="/src/JunTemplate.js"></script>
+	<!--zjselect-->
+    <link href="/styles/zjSelect.css" rel="stylesheet" />
+	<script src="/scripts/zjSelect.js"></script>
+</head>
+<body>
+	<div id="edit" class="page slidedown">
+		<input id="editorFullScreen" type="checkbox" class="hidden" />
+		<p class="progress"></p>
+		<div id="frame" class="frame"></div>
+		<div id="userInfo" class="userInfo">
+			<div class="noLogin"><a href="/login">登录</a></div>
+			<div class="login">
+				<a href="javascript:void(0)"></a>
+				<ul id="userInfoUl" class="userInfoUl">
+					<li type="admin">管理</li>
+					<li type="exit">退出</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="articleTitle">
+				<input title='点击修改标题' placeholder="点击修改标题" type="text" id="title" />
+			</div>
+			<label class="fullscreen" for="editorFullScreen" title="全屏(ESC)"></label>
+			<input id="toolsCB" type="checkbox" class="hidden" />
+			<div class="tools">
+				<label>背景颜色:</label><input id="color" type="color" value="#000000" />
+				<label>文件类型:</label>
+					<x-zjselect id="lang" class="dark" x_get_url="/db/getObjData" x_tb_name="keyValue" 
+						x_tb_where={"name":"aType"} width="100"></x-zjselect>
+				<label>vim模式:</label><input id="vim" type="checkbox" value="vim" />
+				<input id="reset" type="button" value="重新设置" />
+			</div>
+			<!--
+				<div class="showTools">
+					<i class="fa fa-eye"></i>
+				</div>
+			-->
+			<label class="toolsTogger" for="toolsCB" title="显示设置"><span></span></label>
+			<textarea id="code"></textarea>
+		</div>
+	</div>
+	<script type="text/template" id="tree_template">
+		<nav class="tree_menu">
+			<input type="checkbox" id="clickBox">
+			<label class="tree_menu_thumb" for="clickBox"><div></div></label>
+			<ul>
+				<%data.forEach(function(item,index){%>
+					<li>
+						<a href="<%=item.url%>"><%=item.text%></a>
+						<%if(item.children && item.children.length){%>
+							<ul>
+								<%item.children.forEach(function(citem,index){%>
+									<li><a href="<%=citem.url%>"><%=citem.text%></a></li>
+								<%});%>
+							</ul>
+						<%}%>
+					</li>
+				<%});%>
+			</ul>
+		</nav>
+	</script>
+	<div id="rightMenu" class="contextmenu">
+		<ul>
+			<li><span data-type="newPage"	tip="Ctrl+U"	>新建</span></li>
+			<li><span data-type="openFile"	tip="Ctrl+O"	>打开</span></li>
+			<li><span data-type="save"		tip="Ctrl+S"	>保存</span></li>
+			<li><span data-type="saveAs"	tip="Ctrl+Alt+S">另存</span></li>
+			<li><span data-type="delete"	tip="Ctrl+Alt+D">删除</span></li>
+			<li><span data-type="download"	tip="Ctrl+M"	>下载</span></li>
+			<li><span data-type="reload"	tip="Ctrl+Alt+R">刷新</span></li>
+		</ul>
+	</div>
+	<div id="dialog" class="dialog">
+		<label class="close closeBtn" title="关闭">+</label>
+		<div class="container"></div>
+	</div>
+	<div id='mask' class="mask"></div>
+
+
+	<script type="text/template" id="langTemplate">
+		<%data.forEach(function(item){%>
+			<option key="<%=item.cid%>" value="<%=item.text.toLowerCase()%>"><%=item.text%></option>
+		<%});%>
+	</script>
+
+	<script type="text/template" id="alertTemplate">
+		<div class="commonContent">
+			<p><%=data.message%></p>
+			<div data-type="ok" class="commonbtn close"><%=data.ok%></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="confirmTemplate">
+		<div draggable="true" class="commonContent confirmContent">
+			<p><%=data.message%></p>
+			<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="promptTemplate">
+		<div class="commonContent confirmContent promptContent">
+			<label><%=data.message%>：</label>
+			<input class="promptInput" type="text" />
+			<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="openFileTemplate">
+		<div class="commonContent confirmContent openFileContent">
+			<label for="openFileInput" class="openFileBtn"><%=data.message%></label>
+			<input id="openFileInput" class="openFileInput" type="file" />
+			<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="saveAsTemplate">
+		<div class="commonContent confirmContent saveAsContent">
+			<label>标题：</label>
+			<input class="articleTitle" type="text" value="<%=data.title%>" />
+			<br>
+			<label>类型：</label>
+			<x-zjselect id="articleType" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"aMode"} >
+			</x-zjselect>
+			<br>
+			<label>分类：</label>
+			<x-zjselect id="articleCategory" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"aType"} 
+				value="<%=data.cid%>"></x-zjselect>
+			<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+		</div>
+	</script>
+
+	<script src="/scripts/edit.js"></script>
+</body>
+</html>

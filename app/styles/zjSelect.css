@@ -1,0 +1,40 @@
+x-zjselect{height:30px;display:inline-block;}
+x-zjselect /deep/ div{
+	position: relative;
+	display: inline-block;
+	width: 150px; height: 30px;
+	border: 1px solid #ddd;
+	box-sizing:border-box;
+	line-height: 32px; text-align: left;
+	text-indent: 2px; vertical-align: middle;
+	margin:0; padding:0; background: #ececec;
+	overflow: hidden; border-radius:1px;
+}
+x-zjselect /deep/ span{ 
+	position: absolute; right: 0px; top: 0px; width: 20px; height:100%; background:#ffffff; background-size:354px 354px;
+	background-position:-218px -214px;
+}
+x-zjselect.dark /deep/ div,x-zjselect.dark /deep/ span{
+	border:none;
+	background:transparent;
+}
+x-zjselect /deep/ span:after{
+	content:"";
+	display:inline-block;
+	width:0px; height:0px;
+	border-left:5px solid transparent;
+	border-right:5px solid transparent;
+	border-top:8px solid #888888;
+	border-bottom-color:transparent;
+	position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;
+}
+x-zjselect.dark /deep/ span:after{
+	border-top-color:#000;
+}
+x-zjselect /deep/ select{ width:100%; height:100%; position:absolute; opacity:0; top:0; left:0; border:none; }
+x-zjselect /deep/ a{
+	color:#000; text-align:center;
+	position:absolute;
+	top:0; left:0; right:20px; bottom:0;
+	display:flex; justify-content:center; align-items:center;
+}

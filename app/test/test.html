@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Editor</title>
+    <link href="styles/reset.css" rel="stylesheet" />
+	<style>
+		html,body{ width:100%; height:100%;overflow:hidden;}
+		table{
+			background:#fff;
+			box-shadow:2px 2px 3px 8px rgba(255,255,255,0.5);
+			position:absolute;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			margin:auto;
+			width:600px;
+		}
+		table td{
+			width:200px;
+		}
+		canvas{
+			position:absolute;
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+			z-index:-1;
+		}
+	</style>
+	<!-- AjaxUtile.js -->
+	<script src="article/22?type=js&min=false"></script>
+</head>
+<body>
+	<p>xxxxxxxxxxxx</p>
+	<script data-fun="getData" type="template/script">
+		<ul>
+			<%data.forEach(function(item){%>
+				<li><%=item.name%></li>
+			<%});%>
+		</ul>
+	</script>
+	<p>xxxxxxxxxxxx</p>
+	<script data-fun="init" type="template/script">
+		<%for(var i=0;i<10;i++){%>
+			<span><%=i%></span>
+		<%}%>
+	</script>
+	<script data-url='/category' type="template/script">
+		<table>
+			<%data.forEach(function(row){%>
+				<tr>
+					<td><%=row.cid%></td>
+					<td><%=row.cname%></td>
+					<td><%=row.title%></td>
+				</tr>
+			<%});%>
+		</table>
+	</script>
+</body>
+</html>
+<script>
+	function getData(callback){
+		setTimeout(function(){
+			callback([{name:'liu'},{name:'zhi'},{name:'jun'}]);
+		},1000*2);
+	}
+	function init(callback){
+		callback();
+	}
+</script>
+<script src="pixi.min.js"></script>
+<script src="bg.js"></script>
+<script src="Template.js"></script>
+<script>
+	new JunTemp(AjaxUtil);
+</script>

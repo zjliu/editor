@@ -1,0 +1,335 @@
+html, body, .page {
+	height: 100%; width: 100%;
+	overflow: hidden;
+}
+
+body {
+	-webkit-user-select: none;
+	user-select: none;
+	-ms-touch-action: none;
+	font-family:'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+	background-color:#000;
+}
+
+.header, .footer, .content , .page { position: absolute; left: 0; top: 0; }
+
+.page{
+	transition:all ease 0.5s;
+	-webkit-transition:all ease 0.5s;
+	transform:scaleY(0);
+	transform-origin:0px 0px;
+}
+
+.page.slidedown{
+	transform:scaleY(1);
+}
+
+.page .userInfo{
+	position:absolute;
+	top:0;
+	right:50px;
+	width:200px;
+	height:50px;
+	text-align:right;
+	line-height:50px;
+	cursor:pointer;
+}
+
+.page .userInfo>div{
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+
+.page .userInfo>div.active{
+	display:block;
+}
+
+.page .userInfo .login a{
+	position:relative;
+}
+
+.page .userInfo .login a:after{
+	content:'';
+	display:none;
+	border:10px solid #fff;
+	border-bottom:0px;
+	border-left:5px solid transparent;
+	border-right:5px solid transparent;
+	position:absolute;
+	top:5px;
+	left:-14px;
+}
+
+.page .userInfo .login:hover a:after{
+	display:block;
+}
+
+.page .userInfo a{
+	text-decoration: none;
+	color:#fff;
+}
+
+.page .userInfoUl{
+	width:100px;
+	font-size:14px;
+	color:#fff;
+	position:absolute;
+	right:-15px;;
+	top:40px;
+	list-style:none;
+	text-align:center;
+	z-index:3;
+	cursor:pointer;
+	transition:all ease 0.5s;
+	-webkit-transition:all ease 0.5s;
+	transform:scaleY(0);
+	-webkit-transform:scaleY(0);
+	transform-origin:50% 0px;
+}
+
+.page .userInfo .login:hover .userInfoUl{
+	transform:scaleY(1);
+	-webkit-transform:scaleY(1);
+}
+
+.page .userInfoUl li{
+	line-height:30px;
+	background:#141619;
+	border: 1px solid rgba(252, 252, 252, .1);
+	border-top:0;
+}
+
+.hidden{
+	display:none;
+}
+
+.content{
+	right:0;
+	bottom:0;
+	margin:50px 50px;
+	/*background:#fff;*/
+	background:#000;
+	border-radius:10px;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-shadow:0 0 3px #B59A9A;
+	padding:30px 30px 40px 30px;
+}
+
+.content .articleTitle{
+	position:absolute;
+	top:4px;
+	left:0;
+	right:0;
+	margin:auto;
+	text-align:center;
+	width:200px;
+}
+
+.content .articleTitle input{
+	border:none;
+	height:20px;
+	line-height:20px;
+	font-size:20px;
+	width:100%;
+	background-color:#000;
+	color:#fff;
+	text-align:center;
+}
+
+.content .articleTitle input:focus{
+	color:#000;
+	background-color:#fff;
+}
+
+.content .fullscreen{
+	position:absolute;
+	top:4px;
+	right:10px;
+	width:20px;
+	height:20px;
+	background:#333;
+	border-radius:2px;
+	-webkit-border-radius:2px;
+}
+
+.content .fullscreen:before{
+	content:'';
+	width:12px;
+	height:12px;
+	margin:4px;
+	background:#666;
+	display:block;
+	border-radius:2px;
+	-webkit-border-radius:2px;
+}
+
+.content .tools{
+	position:absolute;
+	width:50%;
+	height:30px;
+	bottom:5px;
+	right:30px;
+	background-color:rgb(54, 55, 52);
+	transition:opacity ease 0.5s;
+	opacity:0;
+}
+
+.content .tools select,.content .tools input[type="button"],.content .tools input[type="checkbox"]{
+	background:transparent;
+	border:none;
+	cursor:pointer;
+}
+
+.content .messageTip{
+	position:absolute;
+	bottom:5px;
+	left:0px;
+	color:red;
+	height:20px;
+	text-indent:46px;
+	line-height:20px;
+}
+
+.content .tools label{
+	margin-left:5px;
+}
+
+.content .toolsTogger{
+	width:30px;
+	height:40px;
+	bottom:0px;
+	right:0px;
+	position:absolute;
+	transition:all ease-in-out 0.5s;
+}
+
+.content .toolsTogger>span,.content .toolsTogger>span:before{
+	display:block;
+	width:5px;
+	height:5px;
+	border:2px solid red;
+	border-top:0px solid transparent;
+	border-left:0px solid transparent;
+}
+
+.content .toolsTogger>span{
+	position:absolute;
+	margin:auto;
+	top:0;
+	bottom:0;
+	left:-6px;
+	right:0;
+	transform:rotate(-45deg);
+	-webkit-transform:rotate(-45deg);
+}
+
+.content .toolsTogger>span:before{
+	content:'';
+	display:block;
+	margin:4px;
+}
+
+#toolsCB:checked+.tools{
+	opacity:1;
+}
+
+#toolsCB:checked~.toolsTogger{
+	transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);
+}
+
+.CodeMirror{
+	width:100%;
+	height:100%;
+	border-radius:10px;
+	font-size:16px;
+	background-color:rgb(220, 220, 220);
+	font-family:'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+	border:rgba(255,255,255,0.1) 1px solid;
+}
+
+.CodeMirror.markdown{ background-color:#ffffff; }
+
+/*editorFullScreen*/
+#editorFullScreen:checked~.frame{
+	display:none;
+}
+
+#editorFullScreen:checked~.content{
+	margin:auto;
+}
+#editorFullScreen:checked~.content .CodeMirror{
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+}
+
+.frame{
+	position:absolute;
+	top:10px;
+	left:10px;
+	z-index:9;
+}
+
+.progress{ 
+	margin:0;
+	padding:0;
+	width:0;
+	height:5px;
+	background-color:#8f0206;
+	animation: progressing 2s ease-out;
+	-webkit-animation: progressing 2s ease-out;
+}
+
+@-moz-keyframes progressing {
+	0% {
+		width:0px;
+	}
+	100% {
+		width:100%;
+	}
+}
+
+@-webkit-keyframes progressing {
+	0% {
+		width:0px;
+	}
+	100% {
+		width:100%;
+	}
+}
+
+
+@-keyframes progressing {
+	0% {
+		width:0px;
+	}
+	100% {
+		width:100%;
+	}
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.3);
+	border-radius: 10px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background: rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.8);
+}

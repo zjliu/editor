@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Template</title>
+    <link href="css/reset.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
+	<script src="js/common.js"></script>
+	<script src="js/Template.js"></script>
+	<script src="js/components/AABB/Shape.js"></script>
+	<style>
+		canvas{background-color:transparent}
+		canvas{background-color:#F90}
+	</style>
+</head>
+<body>
+<header>
+<!--
+<button onclick="dx(aniData.shapes[0])">点击</button>
+<button onclick="location.reload()">刷新</button>
+-->
+<p id="pt"></p>
+</header>
+<article><canvas id="canvas" width='450' height='450'></canvas></article>
+<footer></footer>
+</body>
+</html>
+<script>
+var WZQ = (function(){
+	var canvas = G('canvas');
+	var cxt = canvas.getContext('2d');
+	var W = canvas.width;
+	var H = canvas.height;
+	var qzs = [];
+
+	var rcount = 15;
+	var gridW = W/rcount;
+	var qzr = gridW/2-4;
+
+	function QZ(gx,gy,type){
+		this.gx = gx || 0;
+		this.gy = gy || 0;
+		this.x = (gx+0.5)*gridW;
+		this.y = (gy+0.5)*gridW;
+		this.type = type;
+	}
+	QZ.prototype = new Circle(0,0,qzr);
+	QZ.prototype.draw = function(cxt){
+		var rGrd =  cxt.createRadialGradient(this.x,this.y,1,this.x,this.y,qzr);
+		if(!this.type){
+			rGrd.addColorStop(0, '#fff');  
+			rGrd.addColorStop(1, '#aaa');
+		}
+		else{
+			rGrd.addColorStop(0, '#999'); 
+			rGrd.addColorStop(1, '#333');
+		}
+		this.fillStyle = rGrd;
+		this.fill(cxt);
+	}
+
+	function drawGrid(){
+		cxt.save();
+		cxt.beginPath();
+		cxt.strokeStyle = '#664C26';
+		for(var i=1;i<rcount;i++){
+			cxt.moveTo(i*gridW,0);
+			cxt.lineTo(i*gridW,H);
+			cxt.moveTo(0,i*gridW);
+			cxt.lineTo(W,i*gridW);
+		}
+		cxt.stroke();
+		cxt.restore();
+	}
+	drawGrid();
+
+	function windowToCanvas(x,y){
+		var bbox = canvas.getBoundingClientRect();
+		return {x:x-bbox.left*(canvas.width/bbox.width),
+				y:y-bbox.top*(canvas.height/bbox.height)};
+	}
+
+	function ArrayExChange(arr){
+		var rcount = arr.length;
+		var tArr=JSON.parse(JSON.stringify(arr));
+		for(var i=0;i<rcount;i++){
+			for(var j=i;j<rcount;j++){
+				tArr[i][j]=arr[j][i];
+				tArr[j][i]=arr[i][j];
+			}
+		}
+		return tArr;
+	}
+	function ArrayRotate(arr){
+		var rcount = arr.length;
+		var tArr=JSON.parse(JSON.stringify(arr));
+		for(var i=0;i<rcount;i++){
+			for(var j=0;j<rcount;j++){
+				tArr[i][j]=arr[rcount-1-j][i];
+			}
+		}
+		return tArr;
+	}
+
+	function containStr(arr,str,type){
+		var obj;
+		arr.some(function(item,i){
+			var re = item.indexOf(str);
+			if(re>-1) obj={x:re,y:i,type:type};
+			return item.indexOf(str)>-1;
+		});
+		return obj;
+	}
+
+	function WZQ(){
+		this.stepType = 0;
+		this.arr = [];
+		this.map = [];
+		this.piece = new QZ(0,0,0);
+		this.init();
+	}
+	WZQ.prototype={
+		init:function(){
+			this.initEvent();
+			this.initMap();
+			var center = (rcount+1)/2-1;
+			this.step(center,center,0);
+		},
+		initMap:function(){
+			for(var i=0;i<rcount;i++){
+				var iarr = [];
+				for(var j=0;j<rcount;j++){
+					iarr.push(9);
+				}
+				this.map.push(iarr);
+			}
+		},
+		step:function(gx,gy,type){
+			if(this.map[gy][gx]!==9) return;
+			this.stepType = type;
+			this.piece.type=this.stepType;
+			QZ.call(this.piece,gx,gy,this.stepType);
+			this.piece.draw(cxt);
+			this.map[gy][gx]=type;
+			this.detect();
+			this.stepType = ~~!this.stepType;
+		},
+		initEvent:function(){
+			var self = this;
+			canvas.addEventListener('click',function(e){
+				if(!self.stepType || self.isOver) return;
+				var position = windowToCanvas(e.clientX,e.clientY);
+				var gx = Math.floor(position.x/gridW);
+				var gy = Math.floor(position.y/gridW);
+				if(self.map[gy][gx]!=9) return;
+				self.step(gx,gy,1);
+				if(!self.isOver) self.runAI(gx,gy);
+			});
+		},
+		detect:function(){
+			/*
+			this.map=[
+				[9,9,9,9,0,9,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,0,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,0,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,0,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+				[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+				[9,9,0,9,9,9,9,9,9,9,9,9,9,9,9],
+				[0,9,9,0,9,9,9,9,9,9,9,9,9,9,9],
+				[9,0,9,9,0,9,9,9,9,9,9,9,9,9,9],
+				[9,9,1,9,9,0,9,9,9,9,9,9,9,9,9],
+				[9,9,9,0,9,9,0,9,9,9,9,9,9,9,9],
+				[9,9,9,9,0,9,9,9,9,9,9,9,9,9,9]
+			];
+			*/
+			this.isOver = this.detectWin();
+			this.winText = this.isOver?(this.stepType?'玩家赢':'电脑赢'):'';
+			G('pt').innerHTML = this.winText;
+		},
+		detectStr:function(str){
+			var reObj;
+			var xArr = this.map;
+			var xData = xArr.map(p=>p.join(''));
+			reObj = containStr(xData,str,'x');
+			if(reObj) return reObj;
+			var yArr = ArrayExChange(xArr);
+			var yData = yArr.map(p=>p.join(''));
+			reObj = containStr(yData,str,'y');
+			if(reObj) return reObj;
+			var zlData = this.getHypotenuseArr(xArr);
+			reObj = containStr(zlData,str,'zl');
+			if(reObj) return reObj;
+			var zrData = this.getHypotenuseArr(ArrayRotate(xArr));
+			reObj = containStr(zrData,str,'zr');
+			if(reObj) return reObj;
+		},
+		detectWin:function(){
+			return !!this.detectStr(this.stepType?'11111':'00000');
+		},
+		getHypotenuseArr:function(arr){
+			var zobj = {};
+			for(var i=0;i<rcount;i++){
+				for(var j=0;j<rcount;j++){
+					var index = i+j+'';
+					if(!zobj[index]) zobj[index]='';
+					zobj[index]+=arr[i][j];
+				}
+			}
+			var zarr = [];
+			for(var key in zobj) zarr.push(zobj[key]);
+			return zarr;
+		},
+		stepDelay:function(gx,gy,type){
+			var self = this;
+			setTimeout(function(){
+				self.step(gx,gy,type)
+			},500);
+		},
+		runTypeStep:function(obj,offset){
+			var gx,gy;
+			switch(obj.type){
+				case 'x':
+					gx = obj.x+offset;
+					gy = obj.y;
+				break;
+				case 'y':
+					gx = obj.y;
+					gy = obj.x+offset;
+				break;
+				case 'zl':
+					gx = obj.y-obj.x+offset;
+					gy = obj.x;
+				break;
+				case 'zr':
+					gx = obj.y-obj.x+offset;
+					gy = obj.x;
+				break;
+			}
+			this.stepDelay(gx,gy,0);
+		},
+		runAI:function(gx,gy){
+			var obj_90000 = this.detectStr('90000');
+			if(obj_90000) return this.runTypeStep(obj_90000,0); 
+			var obj_00009 = this.detectStr('00009');
+			if(obj_00009) return this.runTypeStep(obj_00009,4); 
+
+			this.stepDelay(gx-1,gy+1,0);
+		}
+	}
+	return WZQ;
+})();
+
+var wzq = new WZQ();
+
+function isPrime(n){
+	var max = Math.floor(Math.sqrt(n));
+	for(var i=2;i<max;i++){
+		if(n%i===0) return false;
+	}
+	return true;
+}
+
+</script>

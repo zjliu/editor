@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>My Works</title>
+    <link href="/styles/reset.css" rel="stylesheet" />
+    <link href="/styles/works.css" rel="stylesheet" />
+	<script src="/src/JunTemplate.js"></script>
+</head>
+<body>
+	<article>
+		<div class="width-wrapper">
+			<ul id="articleList" class="article_list">
+				<script type="text/template" id="articleTemplate">
+					<%data.forEach(function(item,index){%>
+						<li>
+							<div class="iframe-wrap">
+								<a href="/pen/<%=item.pid%>" class="cover-link"></a>
+								<iframe src="/pen/<%=item.pid%>?type=iframe" frameborder="0" scrolling="no" onload=this.classList.add("loaded")></iframe>
+								<div class="meta-title">
+									<h2><%=item.title%></h2>
+									<p><%=item.desc%></p>
+								</div>
+							</div>
+							<div class="meta">
+								<div class="meta-title"><%=item.title%></div>
+								<div class="meta-udate"><%=item.udate%></div>
+							</div>
+						</li>
+					<%});%>
+				</script>
+			</ul>
+		</div>
+		<div class="paging">
+			<a class="paging-prev">Prev</a><a class="paging-next">Next</a>
+		</div>
+	</article>
+</body>
+<script>
+!function(){
+	var page_index = 0;
+	var page_size = 6;
+	var page_count = 1;
+	var pageArr = /^\/works\/(\d+)$/.exec(location.pathname);
+	if(pageArr && pageArr.length===2) page_index = ~~pageArr[1];
+	var pro = ajax({url:'/pen/list',type:'get',data:{index:page_index}});
+	pro.then(function(data){
+		if(!(data && data.data && data.data.length)) return;
+		page_size = data.page_size;
+		page_count = Math.ceil(data.page_count/page_size);
+		applyTemplate(data.data,'articleTemplate',G('articleList'),true);
+		setPage(page_index);
+	});
+	function setPage(index){
+		var prevEl = document.querySelector('.paging .paging-prev');
+		var nextEl = document.querySelector('.paging .paging-next');
+		var listEl = G('articleList'); 
+		var article_count = listEl.children.length;
+		toggle(prevEl,'active',index>0);
+		toggle(nextEl,'active',index<page_count-1);
+		prevEl.setAttribute('href',index<=1 && '/works' || `/works/${index-1}`);
+		nextEl.setAttribute('href',`/works/${index+1}`);
+	}
+	function toggle(el,className,isAdd){
+		if(isAdd) el.classList.add(className);
+		else el.classList.remove(className);
+	}
+}();
+</script>

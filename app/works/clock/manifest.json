@@ -1,0 +1,10 @@
+{
+	"manifest_version":2,
+	"version":"1.1",
+	"name":"CSS3 Clock",
+	"description":"A sample Css3 Clock",
+	"browser_action":{
+		"default_icon":"clockBg.png",
+		"default_popup":"clock.html"
+	}
+}

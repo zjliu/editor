@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Template</title>
+    <link href="css/reset.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
+	<script src="js/common.js"></script>
+	<script src="js/Template.js"></script>
+	<script src="js/components/AABB/Shape.js"></script>
+</head>
+<body>
+<header>
+<button onclick="dx(aniData.shapes[0])">点击</button>
+<button onclick="location.reload()">刷新</button>
+</header>
+<article><canvas id="canvas" width='640' height='480'></canvas></article>
+<section class="tools_left">
+	<script data-fun="getTools" type="template/script">
+		<%data.forEach(function(item){%>
+			<input name="toolCommand" type="radio" id="<%=item.commandId%>" />
+			<label for="<%=item.commandId%>" class="icon" uname="<%=item.uname%>"><img src="<%=item.url%>"></label>
+		<%});%>
+	</script>
+</section>
+<section class="tools_right">
+</section>
+<footer></footer>
+</body>
+</html>
+<script src="js/layout.js"></script>
+<script src="js/hanimation.js"></script>
+<script>
+function drawPoint(color,x,y){
+	cxt.save();
+	cxt.beginPath();
+	cxt.fillStyle=color;
+	cxt.arc(x,y,2,0,Math.PI*2,false);
+	cxt.closePath();
+	cxt.fill();
+	cxt.restore();
+}
+function dx(shape){
+	var cl = new Circle(0,0,1);
+	var isc,fill;
+	for(var i=0;i<640;i=i+5){
+		for(var j=0;j<480;j=j+5){
+			cl.x = i;
+			cl.y = j;
+			drawPoint(cl.collidesWith(shape)?'red':'blue',i,j);
+		}
+	}
+}
+
+function drx(px,py,r1,r2){
+	cxt.clearRect(0,0,640,480);
+	var px=px||340,py=py||240,r1 = r1||200,r2=r2||80;
+	var ep = new Ellipse(px,py,r1,r2);
+	ep.createPath(cxt);
+	ep.stroke(cxt);
+	aniData.shapes.push(ep);
+
+	/*
+	drawPoint('red',px-r1/2,py+r1/2+3);
+	var cl = new Circle(px-r1/2,py+r1/2+4,2);
+	cl.createPath(cxt);
+	cl.stroke(cxt);
+	this.ep=ep;
+	this.cl=cl;
+	*/
+}
+//drx();
+</script>

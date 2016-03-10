@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>LiuZhiJun Editor</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+    <link href="styles/reset.css" rel="stylesheet" />
+	<!--layout-->
+    <link href="styles/layout.css" rel="stylesheet" />
+	<!--login-->
+    <link href="styles/login.css" rel="stylesheet" />
+	<!--ajax--!>
+	<script src="/src/AjaxUtil.js"></script>
+	<!--login--!>
+	<script src="scripts/login.js"></script>
+</head>
+<body>
+	<div id="login" class="page slidedown">
+		<div class="loginwrapper">
+		  <h1>Login</h1>
+		  <section>
+			<form action="javascript:login()">
+				<input class="main-form" type="text" name="username" placeholder="liuzhijunsw@126.com"/>
+				<input class="main-form" type="password" name="password" placeholder="password"/>
+				<input type="submit" value="Sign in"/>
+				<a href="/articles">Guest</a>
+			<form>
+		  </section>
+		</div>
+		<canvas id="loginBgCanvas"></canvas>
+		<script src="scripts/water.js"></script>
+	</div>
+</body>
+</html>

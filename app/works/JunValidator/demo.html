@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>JunValidator.js使用说明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form id="myform">
+        <table style="width: 500px; float: left;">
+            <tr>
+                <td style="width: 100px;">name:</td>
+                <td>
+                    <input value="d123d" class="need" type="text" id="name" name="name" empty="false" emptymsg="name is empty" illleagle="name is illLeagle" reg="username" />
+                </td>
+            </tr>
+            <tr>
+                <td>tel:</td>
+                <td>
+                    <input class="need" type="text" id="tel" name="tel" empty="false" emptymsg="tel is empty" illleagle="tel is illLeagle" reg="tel" /></td>
+            </tr>
+            <tr>
+                <td>isboy:</td>
+                <td>
+                    <input class="need" type="checkbox" id="isboy" checked="checked" name="isboy" empty="false" emptymsg="this checkbox need checked" />
+                    <input class="need" type="checkbox" id="Checkbox1" name="isboy" empty="false" emptymsg="this checkbox need checked" />
+                    <input class="need" type="checkbox" id="Checkbox2" name="isboy" empty="false" emptymsg="this checkbox need checked" />
+                    <input class="need" type="checkbox" id="Checkbox3" name="isboy" empty="false" emptymsg="this checkbox need checked" />
+                </td>
+            </tr>
+            <tr>
+                <td>pass:</td>
+                <td>
+                    <input class="need" value="1233456" type="password" id="pass" name="pass" reg="pass" empty="false" emptymsg="password is needed" illleagle="password is illleagle" />
+                </td>
+            </tr>
+            <tr>
+                <td>repass:</td>
+                <td>
+                    <input class="need" value="12343243" type="password" id="repass" name="repass" reg="pass" empty="false" emptymsg="repassword is needed" illleagle="repassword is illleagle" for="pass" unmatchmsg="repassword need equal pass" /></td>
+            </tr>
+            <tr>
+                <td>select</td>
+                <td>
+                    <select class="need" id="s" name="s" empty="false" defaultvalue="0.0" emptymsg="selector need selected">
+                        <option value="0.0">please select</option>
+                        <optgroup label="1.x">
+                            <option selected="selected" value="1.1">1.1</option>
+                            <option value="1.2">1.1</option>
+                            <option value="1.3">1.2</option>
+                            <option value="1.4">1.3</option>
+                            <option value="1.5">1.4</option>
+                        </optgroup>
+                        <optgroup label="2.x">
+                            <option value="2.1">2.1</option>
+                            <option value="2.2">2.1</option>
+                            <option value="2.3">2.2</option>
+                            <option value="2.4">2.3</option>
+                            <option value="2.5">2.4</option>
+                        </optgroup>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>textarea</td>
+                <td>
+                    <textarea id="area" name="area" class="need" reg="test" empty="false" emptymsg="textarea is needed" illleagle="textarea is illleagle">
+                    fdsfsdfs
+                    </textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div style="float: left; width: 400px; height: 300px; display: inline-block;">
+        使用说明：
+        <pre>
+            1、只需引入 JunValidator.js 即可
+            2、验证信息都在input标签上添加
+            3、input标签上的自定义属性说明：
+                      属性名       说明          值
+                ***************************************
+                    empty       是否能为空      true or false
+                    emptymsg    为空时的错误信息    
+                    illleagle   不合法时的错误信息   
+                    reg         验证时使用的正则的key
+            
+                特殊属性 
+                ***************************************        
+                    for        如果要求一个表单的值和令一个表单值相同（比如说确认密码验证），则加for    for的值为你要求相比较的表单id
+                    unmatchmsg  如果添加的for属性，则需要添加 unmatchmsg 表示如果没有比较成功显示信息
+               
+                    defaultvalue    如果为select，添加 defaultvalue ，当选择的option的值不为 defaultvalue 时提示信息（emptymsg）
+            
+            4、js调用及参数示例说明：
+                    示例：
+
+                        var Regs = {                                      
+                            "test": /^liu$/,
+                            "tel": /^\d{11}$/,
+                            "pass": /^[a-zA-Z0-9]{6,12}$/,
+                            "area": /^.+$/
+                        };                                                
+                                                                          
+                        var elements = document.querySelectorAll(".need");
+                        var validator = new JunValidator({                
+                            "Regs": Regs,
+                            "elements": elements,
+                            "blurAfter": function (element, data) {
+
+                             }
+                            },
+                            "formid": "myform"
+                        });
+                    (1) Regs为 添加的正则（可以用JunValidator中写好的正则），注意 是正则对象
+                    原有正则：
+                        email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                        username: /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/,
+                        fixedTelephone_cn: /^\d{3}-\d{8}|\d{4}-\d{7}$/,
+                        qq: /^[1-9][0-9]{4,}$/,
+                        zipcode_cn: /^[1-9]\d{5}(?!\d)$/,
+                        idcard: /(^\d{15}$)|(\d{17}(?:\d|x|X)$)/,
+                        ip: /^\d+\.\d+\.\d+\.\d+$/                                                 
+                   (2) elements 为要验证的所有元素（数组）
+                   (3) blurAfter 为鼠标离开表单时触发的事件 
+                       element表示触发的表单元素 
+                       data 表示验证后形成的数据  data={checkOk:true,msg:""} 
+                        其中 checkOk 表示验证是否通过 msg 表示错误信息
+                   （4） formid 如果要求把表单包装成字符串的话，得引入jQuery及 formid 参数表示单前表单
+            5、其它方法
+                validator.check() 此方法用于判断表单是否全部通过验证了，返加 true or false
+                validator.serialize() 此方法用于包装表单成字符串，使用此方法的条件为 传入 formid 参数 及 引入了jQury
+        </pre>
+    </div>
+</body>
+</html>
+<script src="JunValidator.js"></script>
+<script>
+    var Regs = {
+        "test": /^liu$/,
+        "tel": /^\d{11}$/,
+        "pass": /^[a-zA-Z0-9]{6,12}$/,
+        "area": /^.+$/
+    };
+    var elements = document.querySelectorAll(".need");
+    var validator = new JunValidator({
+        "Regs": Regs,
+        "elements": elements,
+        "blurAfter": function (element, data) {
+            var imgEl = element.parentNode.querySelector("img");
+            var span = element.parentNode.querySelector("span");
+            if (!imgEl) {
+                imgEl = document.createElement("img");
+                imgEl.src = "reg_ok.png";
+                element.parentNode.appendChild(imgEl);
+            }
+            if (!span) {
+                span = document.createElement("span");
+                element.parentNode.appendChild(span);
+            }
+            if (data.checkOk) {
+                imgEl.style.display = "inline";
+                span.style.display = "none";
+                span.innerHTML = data.msg;
+                span.insertBefore
+            } else {
+                imgEl.style.display = "none";
+                span.style.display = "inline";
+                span.innerHTML = data.msg;
+            }
+        },
+        "formid": "myform",
+        "firstCheck": true
+    });
+
+</script>

@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <title>管理中心</title>
+	<link rel="stylesheet" href="styles/fontAwesome/css/font-awesome.min.css"/>
+    <link href="/src/reset.css" rel="stylesheet" />
+	<!-- AjaxUtile.js -->
+	<script src="/src/AjaxUtil.js"></script>
+	<!-- template.js -->
+	<script src="/src/JunTemplate.js"></script>
+	<!-- HTMLElement.js-->
+	<script src="/src/HTMLElement.js"></script>
+
+	<!--dialog-->
+    <link href="styles/dialog.css" rel="stylesheet" />
+	<script src="scripts/dialog.js"></script>
+
+	<!--table-->
+    <link href="styles/zjTable.css" rel="stylesheet" />
+    <link href="styles/table.css" rel="stylesheet" />
+	<script src="scripts/zjTable.js"></script>
+
+	<!--select-->
+    <link href="styles/zjSelect.css" rel="stylesheet" />
+	<script src="scripts/zjSelect.js"></script>
+
+	<!--layout-->
+    <link href="styles/menu.css" rel="stylesheet" />
+
+	<!--main-->
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/list.css" rel="stylesheet" />
+    <link href="styles/cat.css" rel="stylesheet" />
+
+	<!--My97DatePicker-->
+	<link href="scripts/My97DatePicker/WdatePicker.css" />
+	<script src="scripts/My97DatePicker/WdatePicker.js"></script>
+	<script>
+	</script>
+</head>
+<body>
+	<list-menu class="listMenu" id="listMenu" data-bind='menuData' data-bind-type="fun"></list-menu>
+	<div class="content">
+		<div id="page1" data-fun="penlist" class="page codepenList slideleft">
+			<div class="header">
+				<pen-btn id="createBtn" data-value="新建作品"></pen-btn>
+				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
+			</div>
+			<article>
+				<div class="group">
+					<div id="articleList" class="articleList"></div>
+				<div>
+				<nav class="page-nav"></nav>
+			</article>
+			<script type="text/template" id="articleTemplate">
+				<%data.forEach(function(item,index){%>
+					<section>
+						<div class="iframe-wrap">
+							<a href="/pen/<%=item.pid%>" class="cover-link"></a>
+							<iframe src="/pen/<%=item.pid%>?type=iframe" frameborder="0" scrolling="no"></iframe>
+							<div class="meta-title">
+								<h2><%=item.title%></h2>
+								<p><%=item.desc%></p>
+							</div>
+							<div class="meta-menu">
+								<input type="checkbox" class="hidden" id="clickMenu" />
+								<label class="meta_menu_thumb" for="clickMenu"><div></div></label>
+								<ul class="hidden">
+									<li><a href="/editor/<%=item.htmlId%>" target="_blank">编辑 Html</a></li>
+									<li><a href="/editor/<%=item.cssId%>" target="_blank">编辑 Css</a></li>
+									<li><a href="/editor/<%=item.jsId%>" target="_blank">编辑 Js</a></li>
+									<li><a href="javascript:void(0)" onclick="penModify(<%=item.pid%>,this)">修改作品</a></li>
+									<li><a href="javascript:void(0)" onclick="penDrop(<%=item.pid%>,this)">删除作品</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="meta">
+							<div class="user"><%=localStorage.userName%></div>
+							<div class="lastupdate"><%=item.udate%></div>
+						</div>
+						<input class="itemData" type="hidden" value="<%=escape(JSON.stringify(item))%>" />
+					</section>
+				<%});%>
+			</script>
+			<script type="text/template" id="createArticleTemplate">
+				<div class="commonContent confirmContent saveAsContent">
+					<form class="addArticleForm">
+						<h3>添加作品</h3>
+						<label>标题：</label> <input type="text" name="title" class="article_title" value="<%=data.title||''%>" /> <br/>
+						<label>描述：</label> <input type="text" name="desc" class="article_desc" value="<%=data.desc||''%>"  /> <br/>
+						<label>HTML ID：</label> <input type="text" name="htmlId" class="article_html" value="<%=data.htmlId||''%>"  /> <br/>
+						<label>CSS ID：</label> <input type="text" name="cssId" class="article_css" value="<%=data.cssId||''%>"  /> <br/>
+						<label>JS ID：</label> <input type="text" name="jsId" class="article_js" value="<%=data.jsId||''%>"  /> 
+					</form>
+					<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+					<div data-type="cancel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+				</div>
+			</script>
+		</div>
+		<!--
+		<div id="page2" data-fun="catlist" class="page catList">
+			<div class="categoryContainer">
+				<form id="catForm" action="javascript:addCat()">
+					<input name="text" class="searchInput" type="text" placeholder="Enter To Add" /><br/>
+					<ul class="listUl" id="catlistUl"></ul>
+				</form>
+			</div>
+			<script type="text/template" id="catsTemplate">
+				<%data.forEach(function(item){%>
+					<li><span artCount="<%=item.count%>"><%=item.text%></span><span data-cid="<%=item.cid%>">删除</span></li>
+				<%});%>
+			</script>
+		</div>
+		-->
+		<div id="page2" data-fun="userinfo" class="page userInfoList">
+			<x-dialog data-color="green" data-title="web compontents">
+				<h2 class="cth2">content test!</h2>
+			</x-dialog>
+			<template tagName="x-dialog" data-prototype="HTMLElement">
+				<style>
+					h1{color:red;}
+					:host{display:block;}
+				</style>
+				<h1 pseudo="-webkit-ksx"></h1>	
+				<content select=".cth2"></content>
+			</template>
+			<style>
+				x-dialog /deep/ h1{ font-size:20px; }
+			</style>
+		</div>
+		<div id="page3" class="page">
+			<input type="range" class="custom" />
+			<style>
+				input[type="range"].custom::-webkit-slider-runnable-track{ 
+					-webkit-appearance: none; 
+					background-color:red; 
+				}
+			</style>
+			<x-zjselect id="abx" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"type"} width="120"></x-zjselect>
+		</div>
+		<div id="page4" class="page">
+			<ul class="menu">
+				<li><label for="radio_all">所有表</label></li>
+				<li><label for="radio_add">添加表</label></li>
+			    <li><label for="radio_stct">修改表结构</label></li>
+				<li><label for="radio_data">修改表数据</label></li>
+				<li class="slider"></li>
+			</ul>
+			<div class="tableList" id="tableList">
+				<input type="radio" name="tbRadio" id="radio_all" checked="checked">
+				<div id="allTableContainer">
+					<x-zjtable id="all_tb" x_get_url="/db/tblist" x_update_url="/db/updateTb" x_table_type="row"></x-zjtable>
+				</div>
+				<input type="radio" name="tbRadio" id="radio_add">
+				<div id="addTableContainer">
+					<input type="text" id="tableName" class="tableName"/>
+					<span id="addTableBtn" class="tableBtn">添加表</span>
+					<x-zjtable id="add_tb" x_get_url="/db/get" x_update_url="/db/update" x_table_id="1"></x-zjtable>
+				</div>
+				<input type="radio" name="tbRadio" id="radio_stct">
+				<div id="modifyStctContainer">
+					<div class="btnDiv">
+						<input type="text" id="tableNameInput_stct" class="tableName"/>
+						<span id="queryTableBtn_stct" class="tableBtn">查询</span>
+					</div>
+					<x-zjtable id="stct_tb" x_get_url="/db/getStct" x_update_url="/db/updateStct" x_delay_init="true"></x-zjtable>
+				</div>
+				<input type="radio" name="tbRadio" id="radio_data">
+				<div id="modifyDataContainer">
+					<div class="btnDiv">
+						<input type="text" id="tableNameInput" class="tableName"/>
+						<span id="queryTableBtn" class="tableBtn">查询</span>
+					</div>
+					<div id="updateTable"></div>
+					<x-zjtable id="data_tb" x_get_url="/db/get" x_update_url="/db/update" x_delay_init="true"></x-zjtable>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="dialog" class="dialog">
+		<label class="close closeBtn" title="关闭">+</label>
+		<div class="container"></div>
+	</div>
+	<div id='mask' class="mask"></div>
+	<script type="text/template" id="infoTemplate">
+	</script>
+
+	<script type="text/template" id="alertTemplate">
+		<div class="commonContent">
+			<p><%=data.message%></p>
+			<div data-type="ok" class="commonbtn close"><%=data.ok%></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="confirmTemplate">
+		<div draggable="true" class="commonContent confirmContent">
+			<p><%=data.message%></p>
+			<div data-type="ok" class="commonbtn confirmbtn close"><%=data.ok%></div>
+			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
+		</div>
+	</script>
+	
+	<template id="penBtnTemplate" tagName="pen-btn" data-prototype="HTMLButtonElement">
+		<style>
+			:host{display:inline-block;}
+			a{outline: 0; cursor: pointer; display: inline-block; vertical-align: top;padding: 12px 18px; position: relative;
+				background: -webkit-gradient(linear, left top, left bottom, from(#4d4d4d), to(#2f2f2f));
+				background: -webkit-linear-gradient(#4d4d4d, #2f2f2f); background: linear-gradient(#4d4d4d, #2f2f2f);
+				border-radius: 5px; border: 1px solid black; color: white !important; font-size: 12px; white-space: nowrap;
+				text-overflow: ellipsis; text-decoration: none !important; cursor: pointer; text-align: center}
+		</style>
+		<a></a>	
+	</template>
+	<template id="listMenuTemplate" tagName="list-menu" data-prototype="HTMLDivElement">
+		<style>
+			:host{display:box; display:-webkit-box; -webkit-box-orient:vertical; box-sizing:border-box; -webkit-box-sizing:border-box;
+				box-shadow:0px 0px 3px 8px rgba(255,255,255,.3); }
+			:host>a{ display:block; box-flex: 1; -webkit-box-flex: 1; text-align:center; position:relative; cursor:pointer;
+			box-sizing:border-box; -webkit-box-sizing:border-box; position:relative; color:#fff; border-bottom:1px solid rgba(50, 43, 7, 1);
+			background-image:-webkit-linear-gradient(to right,#000,rgba(255,255,255,.3));
+			background-image:linear-gradient(to right,rgba(255,255,255,.3),#000); font-size:14px; }
+
+			:host>a:last-child{ border-bottom:none; }
+
+			:host>a.active:before{ content:''; position:absolute; top:0; right:-8px; width:8px;
+				height:100%; background:#aaa; border-radius:4px; }
+
+			:host>a:after{ content:attr(value); position:absolute; top:50%; left:50%;
+				transform:translate(-50%,-50%); -webkit-transform:translate(-50%,-50%);
+			}
+		</style>
+		<script class="temp">
+			<%data.forEach(function(item){%>
+				<a href="<%=item.href%>" class="<%=item.active?'active':''%>" value="<%=item.value%>"></a>
+			<%});%>
+		</script>
+	</template>
+
+	<script src="scripts/customDom.js"></script>
+	<script src="scripts/registerDom.js"></script>
+	<script src="scripts/main.js"></script>
+	<script src="scripts/blog.js"></script>
+</body>
+</html>

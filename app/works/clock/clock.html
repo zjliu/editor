@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>load</title>
+<style>
+	*{margin:0px;padding:0px;}
+	body{padding:20px;background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAAATCAIAAAHIduKaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAABh0lEQVR42mL8f82A4f8fKGKTY2D4y/D/L0AAMTFgAwABhF0UIIAY/1/VA+ll+MPAKgvRzsDwDyCAsKsFCCCsov8BAogR7IZ/QF1QEsJgkwfKgbn/weJA9n+AAMJuLFYAEEBAd+kjDIOQ7PIM/9GM/AcQQMQaCRBAxKoDCCBi1QEEEC51/9H4AAEECZ3/EP9DEVYuuwKYwYAkxQCTRREECCASAhE3QHEmQABRxUQUABBAVDfxP0AAMVHgwf9YVQAEECSFYQY2aswAowUhjho5/1H0AgQQlb0MEEBM+JMVqQAggDBc958iEwECiIl6iQ8EAAKIiShVRMcvQAARmzeJBAABxERJKsMEAAHERFrYEAIAAcREamDjVwoQQPDyigEpxSMb8x8p9eAg4bLsiqgiGOYwYIj/J6AAIICoHHpUS8IwABBATAyDGwAEEBHu+/9/AN0HEEBMlEcB+XqJMBIggJiolVBoBAACiImqyfk/1X0LEEBMtMh01Avs/wABxESzkoE6egACDADspa2gmkp4hgAAAABJRU5ErkJggg==);}
+	.mainDiv{width:352px;height:352px;}
+	table.allTb{width:100%;height:100%;}
+	.clock{
+		width:350px;
+		height:350px;
+		border:solid rgba(0,0,0,0) 1px;
+		border-radius:200px;
+		box-shadow:5px 5px 50px 10px rgba(0,0,0,.5);
+		background-color:rgba(255,255,255,1);
+		position:relative;
+	}
+	.clock .bgCanvas{
+		background-color:rgba(0,0,0,0);	
+		position:absolute;
+		top:0;
+		left:0;
+	}
+	.clock .pointer{
+		position:absolute;
+	}
+	.clock .center{
+		width:10px;
+		height:10px;
+		background-color:yellow;
+		border-radius:5px;
+		position:absolute;
+		top:147px;
+		left:147px;
+		z-index:5;
+	}
+	.pointer span{
+		display:block;
+		width:0px;
+		height:0px;
+		border:15px solid rgba(0,0,0,0);
+		border-width:15px 0px 15px 25px;
+	}
+	.clock .s-pointer .p_head{
+		border-width:0px 6px 145px 6px;
+		border-bottom-color:red;
+	}
+	.clock .s-pointer .p_tail{
+		border-width:45px 6px 0px 6px;
+		border-top-color:red;
+	}
+	.clock .m-pointer .p_head{
+		border-width:0px 8px 135px 8px;
+		border-bottom-color:green;
+	}
+	.clock .m-pointer .p_tail{
+		border-width:35px 8px 0px 8px;
+		border-top-color:green;
+	}
+	.clock .h-pointer .p_head{
+		border-width:0px 10px 105px 10px;
+		border-bottom-color:black;
+	}
+	.clock .h-pointer .p_tail{
+		border-width:25px 10px 0px 10px;
+		border-top-color:black;
+	}
+</style>
+<script src="clock.js"></script>
+</head>
+<body>
+<div class="mainDiv">
+	<div id="clock" class="clock">
+		<canvas class="bgCanvas"></canvas>
+		<span class="center"></span>
+		<div class="pointer h-pointer">
+			<span class="p_head"></span><span class="p_tail"></span>	
+		</div>
+		<div class="pointer m-pointer">
+			<span class="p_head"></span><span class="p_tail"></span>
+		</div>
+		<div class="pointer s-pointer">
+			<span class="p_head"></span><span class="p_tail"></span>
+		</div>
+	</div>
+</div>
+</body>
+</html>

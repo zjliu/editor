@@ -1,0 +1,244 @@
+.dialog{
+	position:absolute;
+	width: 400px;
+	height:250px;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	margin:auto;
+	z-index:10;
+	border-radius:5px;
+	box-shadow:1px 1px 8px #ffffff;
+	background-color:rgba(0,0,0,0.8);
+	display:none;
+	opacity:0;
+	transition:all ease 0.5s;
+	padding:15px;
+	box-sizing:border-box;
+	color:#000;
+}
+
+.dialog .container{
+	width:100%;
+	height:100%;
+	background-color:#ddd;
+	position:relative;
+	border-radius:5px;
+	cursor:auto;
+}
+
+.dialog.active{
+	opacity:1;
+}
+
+.mask{
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index:9;
+	background-color:#333;
+	display:none;
+	opacity:0;
+	transition:all ease 0.5s;
+}
+
+.mask.active{
+	opacity:0.5;
+}
+
+.dialog>.closeBtn{
+	color:#fff;
+	font-size:20px;
+	line-height:20px;
+	height:20px;
+	width:20px;
+	position:absolute;
+	right:0;
+	top:0;
+	text-align:center;
+	cursor:pointer;
+	border-radius:10px;
+	transform:rotate(45deg);
+	transition:all ease 0.3s;
+}
+.dialog>.closeBtn:hover{
+	/*
+	top:-3px;
+	right:-3px;
+	transform:rotate(45deg) scale(2);
+	*/
+	color:red;
+	border-radius:10px;
+	background-color:#fff;
+	box-shadow:0px 0px 3px #eee;
+}
+
+.dialog .container .commonContent{
+	width:100%;
+	height:100%;
+	box-sizing:border-box;
+}
+
+.dialog .container .commonContent>p{
+	height:100%;
+	line-height:100px;
+	font-size:14px;
+	text-align:center;
+}
+
+.dialog .container .commonContent>.commonbtn{
+	position:absolute;
+	bottom:0;
+	height:30px;
+	line-height:30px;
+	font-size:16px;
+	color:#000;
+	text-align:center;
+	width:100%;
+	cursor:pointer;
+	border-top:1px solid #eee;
+	box-sizing:border-box;
+	border-radius:0 0 5px 5px;
+	transition:all ease 0.5s;
+}
+
+.dialog .container .confirmContent,.dialog .container .alertContent{
+	text-align:center;
+}
+
+.dialog .container .confirmContent .confirmbtn{
+	text-align:center;
+	width:50%;
+}
+
+.dialog .container .confirmContent>div:nth-of-type(2){
+	border-left:1px solid #eee;
+	left:50%;
+}
+
+.dialog .container .commonContent>.commonbtn:hover{
+	background-color:#eee;
+}
+
+/*saveAs Dialog*/
+.dialog .container .saveAsContent{
+	padding-top:15px;
+	box-sizing:border-box;
+}
+
+.dialog .container .saveAsContent .articleCategory{
+	width:150px;
+	vertical-align: middle;
+}
+.dialog .container input[type="text"]{
+	width:150px;
+	line-height:18px;
+	border:1px solid rgba(0,0,0,0);
+	padding:2px 0;
+	text-indent:2px;
+	overflow:hidden;
+	background:#fff;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-webkit-transition: box-shadow 0.30s ease-in-out;
+	transition: box-shadow 0.30s ease-in-out;
+	text-align:center;
+}
+.dialog .container input[type="text"]:focus{
+	outline:none;
+	border:#87C6F9 1px solid;
+	box-shadow: 0 0 2px rgba(103, 166, 217, 1);
+}
+.dialog .container .promptContent label,.dialog .container .saveAsContent label{
+	display:inline-block;
+	width:27%;
+	text-align:right;
+	height:30px;
+	line-height:30px;
+	vertical-align: middle;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+
+/*promptContent*/
+.dialog .container .promptContent{
+	padding-top:20px;
+}
+
+/*openFileContent*/
+.dialog .container .openFileContent{
+	padding-top:40px;
+}
+
+.dialog .container .openFileInput{
+	display:none;
+}
+
+.dialog .container .openFileContent label{
+	display:block;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	margin:auto;
+	background:#3bb3e0;
+	cursor:pointer;
+}
+
+.dialog .container .createArticleContent{
+
+}
+
+.dialog .select {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	background: white;
+	border: 1px solid #d2e2e7;
+	border-bottom-color: #c5d4d9;
+	border-radius: 2px;
+	background-image: -webkit-linear-gradient(top, #fcfdff, #f2f7f7);
+	background-image: -moz-linear-gradient(top, #fcfdff, #f2f7f7);
+	background-image: -o-linear-gradient(top, #fcfdff, #f2f7f7);
+	background-image: linear-gradient(to bottom, #fcfdff, #f2f7f7);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.dialog .select:before,.dialog .select:after {
+	content: '';
+	position: absolute;
+	right: 11px;
+	width: 0;
+	height: 0;
+	border-left: 3px outset transparent;
+	border-right: 3px outset transparent;
+}
+.dialog .select:before {
+	top: 10px;
+	border-bottom: 3px solid #7f9298;
+}
+.dialog .select:after {
+	top: 16px;
+	border-top: 3px solid #7f9298;
+}
+.dialog .select > select {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	height: 29px;
+	line-height: 17px;
+	padding: 5px 9px;
+	padding-right: 0;
+	color: #80989f;
+	background: transparent;
+	background: rgba(0, 0, 0, 0);
+	border: 0;
+	-webkit-appearance: none;
+}
+.dialog .select > select:focus {
+	color: #4d5a5e;
+	outline: 0;
+}
+

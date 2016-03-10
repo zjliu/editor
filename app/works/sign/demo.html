@@ -1,0 +1,109 @@
+<!DOCTYPE htmle>
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<meta name="viewport" content="width=320, minimum-scale=1.0, maximum-scale=1.0"/>
+   <meta name="format-detection" content="telephone=no">
+<style>
+	html,body{
+		overflow:hidden;
+	}
+	canvas{
+		box-shadow:rgba(0,0,0,.4) 0 0 8px;
+		cursor:crosshair;
+	}
+</style>
+<script src="mugeda_signature.js"></script>
+</head>
+<body>
+	<p>1、在下面画布中创建签名</p>
+	<div id="c" style="width:300px;height:240px;margin-left:0px;margin-top:0px;">
+	</div>
+	<p>2、创建好签名后点确定，保存数据（此示例中我们先保存在本地）</p>
+	<p>3、清空一下画布（画布下方的清空按钮）</p>
+	<p>4、用render方法还原签名</p>
+	<p><input type="button" value="还原签名" id="btn_render" onclick="render()" /></p>
+</body>
+</html>
+<script>
+	var tempData="";
+
+	/*1、创建对象*/
+	var sign=new MugedaSignature();
+
+	/*2、创建签名*/
+	sign.render({
+		//画布的父元素（若没有此参数则画布为绝对定位，以下面的top,left,width,height规定其位置与大小,如果父元素与定位参数都有，则以父元素方式）
+		"parent":document.getElementById("c"),
+		//如果没有提供父元素，则应该输入下面参数:
+		//"top":50, //默认值为0
+		//"left":120,//默认值为0
+		//"width":600,//默认值为320
+		//"height":500,//默认值为240
+		//画笔的颜色
+		"color":"yellow",//默认值为rgb(224, 0, 57)
+		//画布背景色
+		"backgroundColor":"green",//默认值为 #fff
+		//画笔宽度
+		"lineWidth":4,//默认值为4	
+		//线条平滑度
+		"smooth":3,//默认值为3
+		//是否展示工具栏（清空与保存数据） 这个参数主要是用于还原签名的时候可以设置为false使签名不能修改
+		"showTool":true,//默认值为true
+		//还原签名时过程动画画一个点的间隔时间,数据越小，速度越快"
+		"renderTime":50,//默认值为50
+		//清空画布按钮
+		//"clearImgSrc":'clear.png',
+		//确定按钮
+		//"okImgSrc":'confirm.png',
+		//删除最后一笔按钮
+		//"backImgSrc":'goback.png',
+		//回调方法,用于保存数据,参数strData 为字符数据(json格式)
+		"okCallback":function(strData){
+			tempData = strData;
+			console.log(JSON.parse(strData));
+			alert("记录数据完成!");
+		},
+		//点击取消的回调 参数el为签名对象,在此示例中也就是 sign
+		"cancelCallback":function(el){
+			el.hide();	
+		}
+	});
+	
+   /*3、还原签名*/
+   function render(){
+	   //参数为画布参数（可以不同于create中的参数设置,注意如果还原签名中画布的大小改变可能会导致原来的签名不能完全显示）
+	   //签名与还原签名用的都是render方法，不同的是，如果render中有data数据的话，是就是还原签名，否则是创建签名
+	   sign.render({
+			//"parent":document.getElementById("c"),
+			"top":40,
+			"left":5,
+			"width":200,
+			"height":150,
+			"color":"yellow",
+			"backgroundColor":"green",
+			"lineWidth":4,	
+			"smooth":3,
+			"showTool":false,
+			"renderTime":2000,
+			//data有与否决定是签名还是还原签名
+			"data":tempData
+			//如果要在还原的签名上也能像创建签名一样保存数据，则也可以加入回调,不般不用加
+			/*
+			"okCallback":function(strData){
+				tempData=strData;
+				console.log(JSON.parse(strData));
+			}
+			*/
+	   });
+   }
+
+   /*签名框的显示与隐藏*/
+   //隐藏
+   //sign.hide()
+   //显示
+   //sign.show()
+
+</script>
+
