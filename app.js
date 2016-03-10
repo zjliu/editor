@@ -24,7 +24,8 @@ var routeGetArray = [
 	{"key":"/home",			"path":"/views/house.html"},
 	{"key":"/works",		"path":"/views/works.html"},
 	{"key":"/works/:id",	"path":"/views/works.html"},
-	{"key":"/articles",		"path":"/views/article.html"}
+	{"key":"/articles",		"path":"/views/article.html"},
+	{"key":"/articles/:id",	"path":"/views/article.html"}
 ];
 
 routeGetArray.forEach(obj=>{

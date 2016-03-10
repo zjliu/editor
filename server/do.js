@@ -359,9 +359,18 @@ function getPenList(param,callback){
 }
 
 function getBlogList(params,callback){
-	var sql = 'select aid,title,udate from article where cid=3 and type=0 order by udate desc';
-	query(sql,function(data){
-		callback && callback(true,data);
+	var index = ~~params.index || 0;
+	var pageSize = 6;
+	query('select count(*) count from article where cid=3 and type=0',function(data){
+		var obj = {page_count:data[0].count,page_size:pageSize};
+		var sql = `select aid,title,udate 
+			from article where cid=3 and type=0 order by udate desc
+			limit ${pageSize} offset ${pageSize*index}
+		`;
+		query(sql,function(data){
+			obj.data = data;
+			callback && callback(true,obj);
+		});
 	});
 }
 

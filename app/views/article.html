@@ -3,138 +3,12 @@
 <head lang="zh_cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
-    <title>我的博客</title>
-    <link href="styles/reset.css" rel="stylesheet" />
+    <title>我的博客--小鱼空间</title>
+    <link href="/styles/reset.css" rel="stylesheet" />
 	<script src="/src/JunTemplate.js"></script>
-	<!--dialog-->
-    <link href="styles/dialog.css" rel="stylesheet" />
-	<script src="scripts/dialog.js"></script>
-	<style>
-		body{
-			height: 100%;
-			left: 33%;
-			padding: 2em;
-			box-sizing: border-box;
-			color: white;
-			background-color:#000;
-			background-size: 2em 2em;
-			background-position: 0em 1em, 1em 0, 0em 1em, 1em 0, 0 0, 0 0, 0 0, 0 0, 0 0;
-			background-image: linear-gradient(45deg, #000000 8%, transparent 8%, transparent 92%, #000000 92%), linear-gradient(-45deg, #000000 8%, transparent 8%, transparent 92%, #000000 92%), linear-gradient(-45deg, #000000 8%, transparent 8%, transparent 92%, #000000 92%), linear-gradient(45deg, #000000 8%, transparent 8%, transparent 92%, #000000 92%), linear-gradient(-45deg, transparent 17%, #000000 17%, #000000 21%, transparent 21%, transparent 79%, #000000 79%, #000000 83%, transparent 83%), linear-gradient(45deg, transparent 29%, #000000 29%, #000000 33%, transparent 33%, transparent 67%, #000000 67%, #000000 71%, transparent 71%), linear-gradient(-135deg, #202020 10%, #090909 33%, transparent 33%, transparent 67%, #161616 67%, #202020 90%), linear-gradient(135deg, transparent 21%, #161616 21%, #2d2d2d 32.6%, #161616 64.5%, #202020 70.3%, #090909 79%, transparent 79%), linear-gradient(-135deg, transparent 21%, #161616 21%, #202020 40%, #202020 60%, #090909 79%, transparent 79%);
-			-webkit-box-shadow: inset 0 0 2em #000;
-			-webkit-user-select: none;
-		}
-		.width-wrapper{
-			max-width:1200px;
-			margin:0 auto;
-			font-size:0;
-			position:relative;
-		}
-		.article_list{
-			display: -webkit-box !important;
-		    display: -webkit-flex !important;
-		    display: -ms-flexbox !important;
-		    display: flex !important;
-		    -webkit-flex-wrap: wrap;
-		    -ms-flex-wrap: wrap;
-		    flex-wrap: wrap;
-		}
-		.article_list li{
-			width: 32%;
-			border: 5px solid #2F2F31;
-			border-radius: 2px;
-			overflow: hidden;
-			margin: 0 2% 25px 0;
-			position: relative;
-			-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.28);
-			box-shadow: 2px 2px 3px rgba(0,0,0,0.28);
-			box-sizing:border-box;
-		}
-		.article_list li:nth-child(3n){
-			margin-right:0;
-		}
-		@media (max-width: 830px){
-			.article_list li{width:49%}
-			.article_list li:nth-child(3n){ margin-right:2%; }
-			.article_list li:nth-child(2n){ margin-right:0; }
-		}
-		@media (max-width: 550px){
-			.article_list li{ width:100%; margin-right: 0 !important; }
-		}
-
-		.article_list .iframe-wrap{
-			position: relative;
-		    height: 0;
-		    padding-top: 56.25%;
-		    overflow: hidden;
-		}
-		.article_list .iframe-wrap .cover-link{
-			position: absolute;
-			top:0;right:0;left:0;bottom:0;
-			border:0 !important;
-			z-index: 1;
-		}
-		.article_list .iframe-wrap iframe{
-			width: 201%;
-			height: 201%;
-			border: 0;
-			position: absolute;
-			top: 0;
-			left: 0;
-			background: white;
-			-webkit-transform: scale(0.5);
-			transform: scale(0.5);
-		    -webkit-transform-origin: top left;
-			transform-origin: top left;
-		    -webkit-transition: opacity 0.4s ease;
-		    transition: opacity 0.4s ease;
-		    opacity: 0;
-		    visibility: hidden;
-		}
-		.article_list .iframe-wrap iframe.loaded{ opacity: 1; visibility: visible; }
-		.article_list .iframe-wrap:hover iframe.loaded{ opacity:0.5; }
-		.article_list .meta{
-			padding: 10px 5px 16px;
-			background: #2F2F31;
-			position: relative;
-			font-size: 0.85em;
-			white-space: nowrap;
-			-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.25);
-			box-shadow: 0 0 2px rgba(0,0,0,0.25);
-			z-index: 3;
-		}
-
-		.article_list .meta div{ float:left; font-size:12px; color: #999; width: 50%; }
-		.article_list .meta .meta-title{ overflow:hidden; text-overflow:ellipsis; }
-		.article_list .meta .meta-udate{ text-align:right; }
-		.article_list .article_actions{
-			position:absolute;
-			left:0;right:0;bottom:5px;
-			text-align:center;
-			z-index:2;
-		    -webkit-transition: opacity 0.4s ease;
-		    transition: opacity 0.4s ease;
-			opacity:0;
-		}
-
-		.article_list .iframe-wrap:hover .article_actions{ opacity:1; }
-		.article_list .article_actions a{
-			position:relative;
-			color:#fff;
-			text-decoration: none;
-			font-size:12px;
-			margin: 0 1px 0 0;
-			padding:5px 25px;
-			border-width: 1px;
-			background:#1e1e1e;
-			border-radius:5px;
-			display:inline-block;
-			line-height:16px;
-			cursor:pointer;
-		}
-		.article_list .article_actions a:before{ content:'×'; position:absolute; left:5px; }
-		.article_list .article_actions .article_edit:before{ content:'∷'; }
-		.article_list .article_actions .article_edit{ margin-right:10px; }
-	</style>
+    <link href="/styles/dialog.css" rel="stylesheet" />
+    <link href="/styles/article.css" rel="stylesheet" />
+	<script src="/scripts/dialog.js"></script>
 </head>
 <body>
 	<article>
@@ -160,6 +34,9 @@
 				</script>
 			</ul>
 		</div>
+		<div class="paging">
+			<a class="paging-prev">Prev</a><a class="paging-next">Next</a>
+		</div>
 	</article>
 	<script type="text/template" id="confirmTemplate">
 		<div draggable="true" class="commonContent confirmContent">
@@ -175,16 +52,43 @@
 	<div id='mask' class="mask"></div>
 </body>
 <script>
+!function(){
+	var page_index = 0;
+	var page_size = 6;
+	var page_count = 1;
+	var pageArr = /^\/articles\/(\d+)$/.exec(location.pathname);
+	if(pageArr && pageArr.length===2) page_index = ~~pageArr[1];
 	var tokenField = 'access-token';
 	var pro = ajax({ url:'/blog/list', type:'post'});
 		pro.then(function(data){
-			if(data && data.success === false){ return; }
+			if(!data.success) return;
+			data = data.data;
+			if(!(data.data && data.data.length)) return;
+			page_size = data.page_size;
+			page_count = Math.ceil(data.page_count/page_size);
 			applyTemplate(data.data,'articleTemplate',G('articleList'),true);
+			setPage(page_index);
 		});
 
 	var dialogEl = G('dialog');
 	var maskEl = G('mask');
 	var dialog = new Dialog({ 'dialogEl':dialogEl, 'maskEl':maskEl });
+
+	function setPage(index){
+		var prevEl = document.querySelector('.paging .paging-prev');
+		var nextEl = document.querySelector('.paging .paging-next');
+		var listEl = G('articleList'); 
+		var article_count = listEl.children.length;
+		toggle(prevEl,'active',index>0);
+		toggle(nextEl,'active',index<page_count-1);
+		prevEl.setAttribute('href',index<=1 && '/articles' || `/articles/${index-1}`);
+		nextEl.setAttribute('href',`/articles/${index+1}`);
+	}
+
+	function toggle(el,className,isAdd){
+		if(isAdd) el.classList.add(className);
+		else el.classList.remove(className);
+	}
 
 	function openConfirm(message,closeCallback){
 		var data={message:message||'',ok:'确定',cancel:'取消'};
@@ -219,4 +123,5 @@
 			setTimeout(function(){window.currentNotify.close();},2000);
 		}
 	}
+}();
 </script>
