@@ -346,16 +346,28 @@ function createBlog(title,content,cdate,udate,aid){
 }
 
 function getPenList(param,callback){
-	var index = ~~param.index || 0;
-	var pageSize = 6;
-	query('select count(*) count from codepen where userId=1',function(data){
-		var obj = {page_count:data[0].count,page_size:pageSize};
-		var sql = `select * from codepen where userId=1 limit ${pageSize} offset ${pageSize*index}`;
+	if(param.type){
+		var htmlSql = `(select title from article where aid=c.htmlId) html`;
+		var cssSql = `(select title from article where aid=c.cssId) css`;
+		var jsSql = `(select title from article where aid=c.jsId) js`;
+		var sql = `select pid,htmlId,${htmlSql},cssId,${cssSql},jsId,${jsSql},title,desc from codepen c order by udate desc`;
+		console.log(sql);
 		query(sql,function(data){
-			obj.data = data;
-			callback && callback(obj);
+			callback && callback(data);
 		});
-	});
+	}
+	else {
+		var index = ~~param.index || 0;
+		var pageSize = 6;
+		query('select count(*) count from codepen where userId=1',function(data){
+			var obj = {page_count:data[0].count,page_size:pageSize};
+			var sql = `select * from codepen where userId=1 limit ${pageSize} offset ${pageSize*index}`;
+			query(sql,function(data){
+				obj.data = data;
+				callback && callback(obj);
+			});
+		});
+	}
 }
 
 function getBlogList(params,callback){

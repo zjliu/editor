@@ -30,7 +30,7 @@ body {
 	text-align:right;
 	line-height:50px;
 	cursor:pointer;
-	z-index:4;
+	z-index:7;
 }
 .page .userInfo>div{display:none;}
 .page .userInfo>div.active{ display:block; }

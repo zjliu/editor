@@ -30,38 +30,16 @@ function hashchange(){
 
 window.onhashchange=hashchange;
 
-/*
-function listMenuclick(e,el){
-	var target = el || e.target;
-	if(!target.href) return;
-	var lastActive = target.parentNode.querySelector('.active');
-	lastActive && lastActive.classList.remove('active');
-	target.classList.add('active');
-}
-
-listMenuEl.onclick=listMenuclick;
-*/
-
 var PageLoader={
-	penlist:{
-		init:loadPenList,
-		loaded:false
-	},
-	catlist:{
-		init:loadCatList,
-		loaded:false
-	},
-	userinfo:{
-		init:loadInfoPage,
-		loaded:false
-	}
+	penlist:{ init:loadPenList, loaded:false },
+	catlist:{ init:loadCatList, loaded:false },
+	userinfo:{ init:loadInfoPage, loaded:false }
 }
 
 function loadPage(pageEl){
 	var fun=pageEl.dataset.fun;
 	if(!fun) return;
 	var obj = PageLoader[fun];
-	//if(obj.loaded) return;
 	var callback = PageLoader[fun].init;
 	callback && callback.bind(obj)();
 }
@@ -70,10 +48,7 @@ hashchange();
 
 var dialogEl = G('dialog');
 var maskEl = G('mask');
-var dialog = new Dialog({
-	'dialogEl':dialogEl,
-	'maskEl':maskEl
-});
+var dialog = new Dialog({ 'dialogEl':dialogEl, 'maskEl':maskEl });
 
 function openAlert(message,closeCallback){
 	var data={message:message||'',ok:'确定'};
@@ -87,15 +62,11 @@ function openConfirm(message,closeCallback){
 
 function notify(title,body){
 	if(window.currentNotify) window.currentNotify.close();
-	if(Notification.permission !== 'denied'){
-		Notification.requestPermission();
-	}
+	if(Notification.permission !== 'denied') Notification.requestPermission();
 	if(Notification.permission === "granted"){
 		var option = {'dir':'rtl','icon':'/images/notify.png','body':body};
 		window.currentNotify = new Notification(title,option);
-		setTimeout(function(){
-			window.currentNotify.close();
-		},2000);
+		setTimeout(function(){ window.currentNotify.close(); },2000);
 	}
 }
 
@@ -104,16 +75,12 @@ function loadPenList(){
 	AjaxUtil.ajax({
 		url:'/pen/list',
 		type:'get',
-		dataType:'json',
+		data:{type:'list'},
 		success:function(data){
-			if(data && data.success === false){
-				window.location.href="index.html#login";
-			}
-			applyTemplate(data,'articleTemplate',G('articleList'),true);
+			if(data && data.success === false) window.location.href="/login";
+			applyTemplate(data,'penListTemplate',G('penList'),true);
 		},
-		error:function(info){
-			console.log(info);
-		}
+		error:function(info){console.log(info);}
 	});
 
 	function openPenDialog(callback,mdata){
@@ -133,21 +100,13 @@ function loadPenList(){
 				type:'post',
 				data:mdata,
 				dataType:'json',
-				success:function(data){
-					if(data.success){
-						window.location.reload();
-					}
-				},
-				error:function(info){
-					console.log(info);
-				}
+				success:function(data){ if(data.success){ window.location.reload(); } },
+				error:function(info){ console.log(info); }
 			});
 		});
 	}
 
-	createBtn.onclick=function(){
-		createPen();
-	}
+	createBtn.onclick=function(){ createPen(); }
 
 	function penModify(pid,el){
 		var penEl = el.closest(function(dom){
@@ -168,14 +127,8 @@ function loadPenList(){
 				type:'post',
 				data:mdata,
 				dataType:'json',
-				success:function(data){
-					if(data.success){
-						window.location.reload();
-					}
-				},
-				error:function(info){
-					console.log(info);
-				}
+				success:function(data){ if(data.success){ window.location.reload(); } },
+				error:function(info){ console.log(info); }
 			});
 		},data);
 	}
@@ -195,9 +148,7 @@ function loadPenList(){
 						window.location.reload();
 					}
 				},
-				error:function(info){
-					console.log(info);
-				}
+				error:function(info){ console.log(info); }
 			});
 		});
 	}
@@ -256,10 +207,7 @@ function loadCatList(){
 				data:mdata,
 				dataType:'json',
 				success:function(data){
-					if(data.success){
-						var li = el.parentNode;
-						catListEl.removeChild(li);
-					}
+					if(data.success){ var li = el.parentNode; catListEl.removeChild(li); }
 				}
 			});
 		},
@@ -281,7 +229,6 @@ function loadCatList(){
 function loadInfoPage(){
 	var register = CustomElements.register;
 	var temp = document.querySelector('[tagName="x-dialog"]');
-
 	var dialogPro={
 		attachedCallback:function(){
 			var data = this.dataset;
@@ -295,7 +242,5 @@ function loadInfoPage(){
 			if(attrName==='data-color') this.style.background=newVal;
 		}
 	}
-
 	register('x-dialog',{template:temp, prototype:dialogPro});
-
 }

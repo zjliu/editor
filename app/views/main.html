@@ -48,12 +48,22 @@
 				<pen-btn id="createBtn" data-value="新建作品"></pen-btn>
 				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
 			</div>
-			<article>
-				<div class="group">
-					<div id="articleList" class="articleList"></div>
-				<div>
-				<nav class="page-nav"></nav>
-			</article>
+			<article id="penList" class="penList"></article>
+			<script type="text/template" id="penListTemplate">
+				<%data.forEach(function(item,index){%>
+					<input type="checkbox" id="penlist_<%=index%>" />
+					<section>
+						<label for="penlist_<%=index%>"><%=item.title%></label>
+						<ul>
+							<li><%=item.desc%></li>
+							<li class="source"><%=item.html%><a href="/editor/<%=item.htmlId%>"></a></li>
+							<li class="source"><%=item.css%><a href="/editor/<%=item.cssId%>"></a></li>
+							<li class="source"><%=item.js%><a href="/editor/<%=item.jsId%>"></a></li>
+							<li><a>删除</a><a href="/pen/<%=item.pid%>">查看</a></li>
+						</ul>
+					</section>
+				<%});%>
+			</script>
 			<script type="text/template" id="createArticleTemplate">
 				<div class="commonContent confirmContent saveAsContent">
 					<form class="addArticleForm">

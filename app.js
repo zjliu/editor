@@ -168,11 +168,6 @@ app.post('/pen/delete',function(req,res){
 });
 
 app.get('/pen/list',function(req,res){
-	/*
-	var tokenObj = checkToken(req);
-	if(!tokenObj){ res.json(tokenError); return; }
-	var uid = tokenObj.iss;
-	*/
 	Q.getPenList(req.query,function(data){
 		res.json(data);
 	});
