@@ -261,10 +261,12 @@ function notify(title,body){
 					var title = data.title;
 					setTitle(title);
 					setValue(data.content);
-					lang.onload = function(){
+					function setLang(){
 						var option = lang.getOption(data.cid+1);
 						if(option) lang.value = option.value;
 					}
+					if(lang.loaded) setLang();
+					else lang.onload = setLang;
 				}
 				else{
 					notify('读取文档','读取文档失败！');

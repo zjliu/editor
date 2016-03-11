@@ -22,6 +22,7 @@
 		reg.test(height) && (root.querySelector('div').style.height=parseFloat(height)+"px");
 	}
 	zjSelectPro.createdCallback=function(){
+		this.loaded = false;
 		let root = this.createShadowRoot();
 		let url = this.getAttribute('x_get_url');
 		var opt = {
@@ -58,6 +59,7 @@
 			this.setSize();
 			this.getOption=(index)=>this.el.querySelector(`option:nth-of-type(${index})`);
 			if(this.onload) this.onload();
+			this.loaded = true;
 		});
 	}
 	zjSelectPro.attributeChangedCallback=function(attrName, oldVal, newVal){
