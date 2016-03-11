@@ -26,22 +26,13 @@ body {
 	position:absolute;
 	top:0;
 	right:50px;
-	width:200px;
-	height:50px;
+	min-width:100px;
 	text-align:right;
 	line-height:50px;
 	cursor:pointer;
+	z-index:4;
 }
-
-.page .userInfo>div{
-	display:none;
-	position:absolute;
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-}
-
+.page .userInfo>div{display:none;}
 .page .userInfo>div.active{ display:block; }
 .page .userInfo .login a{ position:relative; }
 .page .userInfo .login a:after{
@@ -58,24 +49,20 @@ body {
 .page .userInfo .login:hover a:after{ display:block; }
 .page .userInfo a{ text-decoration: none; color:#fff; }
 .page .userInfoUl{
-	width:100px;
+	height:0;
+	overflow:hidden;
 	font-size:14px;
 	color:#fff;
-	position:absolute;
-	right:-15px;;
-	top:40px;
 	list-style:none;
 	text-align:center;
-	z-index:3;
 	cursor:pointer;
+	margin-right:-25px;
 	transition:all ease 0.5s;
 	-webkit-transition:all ease 0.5s;
-	transform:scaleY(0);
-	-webkit-transform:scaleY(0);
-	transform-origin:50% 0px;
 }
 
-.page .userInfo .login:hover .userInfoUl{ transform:scaleY(1); -webkit-transform:scaleY(1); }
+.page .userInfo .login:hover .userInfoUl{ height:125px;}
+
 .page .userInfoUl li{
 	line-height:30px;
 	background:#141619;

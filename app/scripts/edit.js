@@ -561,9 +561,9 @@ function notify(title,body){
 			delete localStorage.userName;
 			win.location.href="/login";
 		},
-		admin:function(){
-			win.location.href="/main";
-		}
+		admin:function(){ win.location.href="/main"; },
+		articles:function(){ win.location.href="/articles";},
+		works:function(){ win.location.href="/works";}
 	}
 
 	userInfoUl.addEventListener('click',function(e){
