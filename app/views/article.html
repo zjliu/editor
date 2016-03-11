@@ -59,7 +59,7 @@
 	var pageArr = /^\/articles\/(\d+)$/.exec(location.pathname);
 	if(pageArr && pageArr.length===2) page_index = ~~pageArr[1];
 	var tokenField = 'access-token';
-	var pro = ajax({ url:'/blog/list', type:'post'});
+	var pro = ajax({url:'/blog/list',type:'post',data:{index:page_index}});
 		pro.then(function(data){
 			if(!data.success) return;
 			data = data.data;
@@ -123,5 +123,6 @@
 			setTimeout(function(){window.currentNotify.close();},2000);
 		}
 	}
+	if(localStorage['access-token']) document.body.classList.add('active');
 }();
 </script>

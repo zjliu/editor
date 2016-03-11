@@ -261,8 +261,10 @@ function notify(title,body){
 					var title = data.title;
 					setTitle(title);
 					setValue(data.content);
-					var option = lang.getOption(data.cid+1);
-					if(option) lang.value = option.value;
+					lang.onload = function(){
+						var option = lang.getOption(data.cid+1);
+						if(option) lang.value = option.value;
+					}
 				}
 				else{
 					notify('读取文档','读取文档失败！');

@@ -54,36 +54,6 @@
 				<div>
 				<nav class="page-nav"></nav>
 			</article>
-			<script type="text/template" id="articleTemplate">
-				<%data.forEach(function(item,index){%>
-					<section>
-						<div class="iframe-wrap">
-							<a href="/pen/<%=item.pid%>" class="cover-link"></a>
-							<iframe src="/pen/<%=item.pid%>?type=iframe" frameborder="0" scrolling="no"></iframe>
-							<div class="meta-title">
-								<h2><%=item.title%></h2>
-								<p><%=item.desc%></p>
-							</div>
-							<div class="meta-menu">
-								<input type="checkbox" class="hidden" id="clickMenu" />
-								<label class="meta_menu_thumb" for="clickMenu"><div></div></label>
-								<ul class="hidden">
-									<li><a href="/editor/<%=item.htmlId%>" target="_blank">编辑 Html</a></li>
-									<li><a href="/editor/<%=item.cssId%>" target="_blank">编辑 Css</a></li>
-									<li><a href="/editor/<%=item.jsId%>" target="_blank">编辑 Js</a></li>
-									<li><a href="javascript:void(0)" onclick="penModify(<%=item.pid%>,this)">修改作品</a></li>
-									<li><a href="javascript:void(0)" onclick="penDrop(<%=item.pid%>,this)">删除作品</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="meta">
-							<div class="user"><%=localStorage.userName%></div>
-							<div class="lastupdate"><%=item.udate%></div>
-						</div>
-						<input class="itemData" type="hidden" value="<%=escape(JSON.stringify(item))%>" />
-					</section>
-				<%});%>
-			</script>
 			<script type="text/template" id="createArticleTemplate">
 				<div class="commonContent confirmContent saveAsContent">
 					<form class="addArticleForm">

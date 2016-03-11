@@ -79,7 +79,7 @@ body{
 	visibility: hidden;
 }
 .article_list .iframe-wrap iframe.loaded{ opacity: 1; visibility: visible; }
-.article_list .iframe-wrap:hover iframe.loaded{ opacity:0.5; }
+body.active .article_list .iframe-wrap:hover iframe.loaded{ opacity:0.5; }
 .article_list .meta{
 	padding: 10px 5px 16px;
 	background: #2F2F31;
@@ -104,7 +104,7 @@ body{
 	opacity:0;
 }
 
-.article_list .iframe-wrap:hover .article_actions{ opacity:1; }
+body.active .article_list .iframe-wrap:hover .article_actions{ opacity:1; }
 .article_list .article_actions a{
 	position:relative;
 	color:#fff;
