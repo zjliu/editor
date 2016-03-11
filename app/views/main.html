@@ -51,7 +51,7 @@
 			<article id="penList" class="penList"></article>
 			<script type="text/template" id="penListTemplate">
 				<%data.forEach(function(item,index){%>
-					<input type="checkbox" id="penlist_<%=index%>" />
+					<input name="penList_input" type="radio" id="penlist_<%=index%>"<%=attr('checked',index===0)%>/>
 					<section>
 						<label for="penlist_<%=index%>"><%=item.title%></label>
 						<ul>
@@ -59,7 +59,7 @@
 							<li class="source"><%=item.html%><a href="/editor/<%=item.htmlId%>"></a></li>
 							<li class="source"><%=item.css%><a href="/editor/<%=item.cssId%>"></a></li>
 							<li class="source"><%=item.js%><a href="/editor/<%=item.jsId%>"></a></li>
-							<li><a>删除</a><a href="/pen/<%=item.pid%>">查看</a></li>
+							<li><a href="/pen/<%=item.pid%>">查看</a><a>删除</a></li>
 						</ul>
 					</section>
 				<%});%>

@@ -19,7 +19,7 @@
 }
 .codepenList .penList:before,.articleList:after{ content:''; display:table; }
 .codepenList .penList section{ position:relative; border-bottom:1px solid #222; }
-.codepenList .penList input[type=checkbox]{ display:none; }
+.codepenList .penList input[type=radio]{ display:none; }
 .codepenList .penList section label{
 	position:relative;
 	display:block;
@@ -28,6 +28,7 @@
 	background:#111;
 	border-radius:2px;
 	text-indent:15px;
+	cursor:pointer;
 }
 .codepenList .penList section label:after{
 	content:'';
@@ -38,10 +39,24 @@
 	border-top:10px solid #eee;
 	border-left:5px solid transparent;
 	border-right:5px solid transparent;
+	border-bottom-width:0;
+	transition:all linear 0.5s;
+	-webkit-transition:all linear 0.5s;
 }
-.codepenList .penList section ul{list-style:none; background:#222; color:#ddd; display:none; }
-.codepenList .penList input[type=checkbox]:checked+section ul{ display:block; }
-.codepenList .penList input[type=checkbox]:checked+section label:after{ border-top:none; border-bottom:10px solid #eee; }
+.codepenList .penList section ul{
+	list-style:none; 
+	background:#222; 
+	color:#ddd; 
+	height:0; 
+	overflow:hidden; 
+	transition:height linear 0.5s;
+	-webkit-transition:height linear 0.5s;
+}
+.codepenList .penList input[type=radio]:checked+section ul{height:164px;}
+.codepenList .penList input[type=radio]:checked+section label:after{ 
+	border-top-width:0; 
+	border-bottom:10px solid #eee; 
+}
 .codepenList .penList section ul li{ 
 	position:relative; 
 	line-height:30px; 
@@ -94,12 +109,8 @@
 	text-decoration:none;
 	text-align:center;
 	cursor:pointer;
-	margin:auto;
 	border-radius:2px;
 }
-.codepenList .penList section ul li:nth-child(5) a:last-child{ margin-left:100px; }
-.codepenList .penList section ul li:nth-child(5) a:hover{
-	background:#bbb;
-	color:#000;
-}
+.codepenList .penList section ul li:nth-child(5) a:last-child{ margin-left:50px; }
+.codepenList .penList section ul li:nth-child(5) a:hover{ background:#bbb; color:#000; }
 
