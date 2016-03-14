@@ -59,15 +59,20 @@
 							<li class="source"><%=item.html%><a href="/editor/<%=item.htmlId%>"></a></li>
 							<li class="source"><%=item.css%><a href="/editor/<%=item.cssId%>"></a></li>
 							<li class="source"><%=item.js%><a href="/editor/<%=item.jsId%>"></a></li>
-							<li><a href="/pen/<%=item.pid%>">查看</a><a>删除</a></li>
+							<li>
+								<a href="/pen/<%=item.pid%>">查看</a>
+								<a onclick="penModify(<%=item.pid%>,this)" href="javascript:void(0);">修改</a>
+								<a onclick="penDrop(<%=item.pid%>,this)">删除</a>
+							</li>
 						</ul>
+						<input type="hidden" class="itemData" value="<%=escape(JSON.stringify(item))%>" />
 					</section>
 				<%});%>
 			</script>
 			<script type="text/template" id="createArticleTemplate">
 				<div class="commonContent confirmContent saveAsContent">
 					<form class="addArticleForm">
-						<h3>添加作品</h3>
+						<h3><%=data.dialog_title%></h3>
 						<label>标题：</label> <input type="text" name="title" class="article_title" value="<%=data.title||''%>" /> <br/>
 						<label>描述：</label> <input type="text" name="desc" class="article_desc" value="<%=data.desc||''%>"  /> <br/>
 						<label>HTML ID：</label> <input type="text" name="htmlId" class="article_html" value="<%=data.htmlId||''%>"  /> <br/>
@@ -79,36 +84,30 @@
 				</div>
 			</script>
 		</div>
-		<!--
-		<div id="page2" data-fun="catlist" class="page catList">
-			<div class="categoryContainer">
-				<form id="catForm" action="javascript:addCat()">
-					<input name="text" class="searchInput" type="text" placeholder="Enter To Add" /><br/>
-					<ul class="listUl" id="catlistUl"></ul>
-				</form>
+		<div id="page2" data-fun="bloglist" class="page codepenList bloglist">
+			<div class="header">
+				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
 			</div>
-			<script type="text/template" id="catsTemplate">
-				<%data.forEach(function(item){%>
-					<li><span artCount="<%=item.count%>"><%=item.text%></span><span data-cid="<%=item.cid%>">删除</span></li>
+			<article id="articleList" class="articleList"></article>
+			<script type="text/template" id="articleListTemplate">
+				<%data.forEach(function(item,index){%>
+					<input name="articleList_input" type="radio" id="articlelist_<%=index%>"<%=attr('checked',index===0)%>/>
+					<section>
+						<label for="articlelist_<%=index%>"><%=item.title%></label>
+						<ul>
+							<li><%=item.desc%></li>
+							<li class="source"><%=item.html%><a href="/editor/<%=item.htmlId%>"></a></li>
+							<li class="source"><%=item.css%><a href="/editor/<%=item.cssId%>"></a></li>
+							<li class="source"><%=item.js%><a href="/editor/<%=item.jsId%>"></a></li>
+							<li>
+								<a href="/pen/<%=item.pid%>">查看</a>
+								<a onclick="penModify(<%=item.pid%>,this)" href="javascript:void(0);">修改</a>
+								<a onclick="penDrop(<%=item.pid%>,this)">删除</a>
+							</li>
+						</ul>
+					</section>
 				<%});%>
 			</script>
-		</div>
-		-->
-		<div id="page2" data-fun="userinfo" class="page userInfoList">
-			<x-dialog data-color="green" data-title="web compontents">
-				<h2 class="cth2">content test!</h2>
-			</x-dialog>
-			<template tagName="x-dialog" data-prototype="HTMLElement">
-				<style>
-					h1{color:red;}
-					:host{display:block;}
-				</style>
-				<h1 pseudo="-webkit-ksx"></h1>	
-				<content select=".cth2"></content>
-			</template>
-			<style>
-				x-dialog /deep/ h1{ font-size:20px; }
-			</style>
 		</div>
 		<div id="page3" class="page">
 			<input type="range" class="custom" />
@@ -160,7 +159,7 @@
 		</div>
 	</div>
 	<div id="dialog" class="dialog">
-		<label class="close closeBtn" title="关闭">+</label>
+		<label class="close closeBtn" title="关闭"></label>
 		<div class="container"></div>
 	</div>
 	<div id='mask' class="mask"></div>

@@ -32,8 +32,8 @@ window.onhashchange=hashchange;
 
 var PageLoader={
 	penlist:{ init:loadPenList, loaded:false },
-	catlist:{ init:loadCatList, loaded:false },
-	userinfo:{ init:loadInfoPage, loaded:false }
+	bloglist:{ init:loadBlogList, loaded:false },
+	catlist:{ init:loadCatList, loaded:false }
 }
 
 function loadPage(pageEl){
@@ -84,9 +84,11 @@ function loadPenList(){
 	});
 
 	function openPenDialog(callback,mdata){
+		var isUpdate = !!mdata;
 		var data = mdata || {};
 		data.ok = "确定";
 		data.cancel = "取消";
+		data.dialog_title = isUpdate && '修改作品' || '添加作品';
 		dialog.openFromTemplate(data,'createArticleTemplate',350,250,callback);
 	}
 
@@ -226,21 +228,16 @@ function loadCatList(){
 	cat.run();
 }
 
-function loadInfoPage(){
-	var register = CustomElements.register;
-	var temp = document.querySelector('[tagName="x-dialog"]');
-	var dialogPro={
-		attachedCallback:function(){
-			var data = this.dataset;
-			var root = this.shadowRoot;
-			this.style.background=data.color;
-			var title = this.dataset.title;
-			var h = root.querySelector('h1');
-			h.textContent = title;
+function loadBlogList(){
+	AjaxUtil.ajax({
+		url:'/pen/list',
+		type:'get',
+		data:{type:'list'},
+		success:function(data){
+			if(data && data.success === false) window.location.href="/login";
+			applyTemplate(data,'articleListTemplate',G('articleList'),true);
 		},
-		attributeChangedCallback:function(attrName, oldVal, newVal){
-			if(attrName==='data-color') this.style.background=newVal;
-		}
-	}
-	register('x-dialog',{template:temp, prototype:dialogPro});
+		error:function(info){console.log(info);}
+	});
 }
+

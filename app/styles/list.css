@@ -3,7 +3,7 @@
 .codepenList article{ 
 	max-width:1000px;
 	overflow:hidden;
-	height:550px;
+	height:530px;
 	overflow-y:auto;
 	border:10px solid #111;
 }
@@ -110,7 +110,7 @@
 	text-align:center;
 	cursor:pointer;
 	border-radius:2px;
+	margin-right:50px;
 }
-.codepenList .penList section ul li:nth-child(5) a:last-child{ margin-left:50px; }
 .codepenList .penList section ul li:nth-child(5) a:hover{ background:#bbb; color:#000; }
 

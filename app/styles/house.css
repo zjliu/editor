@@ -657,7 +657,7 @@ body{
 	width:280px;
 	top:0;right:15%; margin:auto;
 	overflow:hidden;
-	color:#fff;
+	color:#eee;
 }
 
 .lamp.lamp_left{
@@ -695,7 +695,7 @@ body{
 	position:relative;
 	width:80px;
 	height:40px;
-	background:#fff;
+	background:currentColor;
 	border-top-left-radius:50px;
 	border-top-right-radius:50px;
 	margin-top:-3px;
@@ -740,6 +740,9 @@ body{
 	display:block;
 }
 
+#switchlamp:checked~.lamp .lamp-bulb{
+	background:#fff;
+}
 
 .lampswitch{
 	left:10%;

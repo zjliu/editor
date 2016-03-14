@@ -213,7 +213,6 @@ function addPen(uid,params,callback){
 		'type':false, 'sortcode':false,
 		'cdate':false, 'udate':false
 	};
-	console.log(params);
 	var sql = getInsertSql('codepen',params,fileds);
 	exec(sql,function(error){
 		if(!callback) return;
@@ -351,7 +350,6 @@ function getPenList(param,callback){
 		var cssSql = `(select title from article where aid=c.cssId) css`;
 		var jsSql = `(select title from article where aid=c.jsId) js`;
 		var sql = `select pid,htmlId,${htmlSql},cssId,${cssSql},jsId,${jsSql},title,desc from codepen c order by udate desc`;
-		console.log(sql);
 		query(sql,function(data){
 			callback && callback(data);
 		});
@@ -514,7 +512,7 @@ function getDBTable(param,callback){
 }
 
 function getDBTableStct(param,callback){
-	if(!param.pid){ console.log('getDBTableStct',param);callback && callback(false); return; }
+	if(!param.pid){callback && callback(false); return; }
 	var sql = `select stct from db where id=1 or id=${param.pid}`;
 	query(sql,function(rows){
 		var stct = rows[0].stct;
@@ -625,7 +623,7 @@ var updateStctFun = {
 function updateDBTableStct(param,callback){
 	var index = parseInt(param.index);
 	var type = param.type;
-	if(!param.id){ console.log('updateDBTableStct',param);callback && callback(false); return; }
+	if(!param.id){callback && callback(false); return; }
 	var sql = `select stct,data from db where id=1 or id=${param.id}`;
 	query(sql,function(rows){
 		if(rows.length){

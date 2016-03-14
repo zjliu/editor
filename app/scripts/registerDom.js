@@ -26,7 +26,7 @@
 	function registerListMenu(){
 		window.menuData=[
 			{"href":"#page1","value":"作品列表","active":true},
-			{"href":"#page2","value":"个人信息"},
+			{"href":"#page2","value":"博客列表"},
 			{"href":"#page3","value":"统计信息"},
 			{"href":"#page4","value":"表管理"}
 		];
