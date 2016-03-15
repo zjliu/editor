@@ -30,6 +30,13 @@
 	text-indent:15px;
 	cursor:pointer;
 }
+.codepenList .penList section label:before{
+	content:attr(data-udate);
+	position:absolute;
+	top:0; bottom:0;
+	right:40px; margin:auto;
+	color:#888;
+}
 .codepenList .penList section label:after{
 	content:'';
 	position:absolute;
@@ -52,7 +59,14 @@
 	transition:height linear 0.5s;
 	-webkit-transition:height linear 0.5s;
 }
+.codepenList .articleList section p{ 
+	height:0; 
+	overflow:hidden;
+	transition:height linear 0.2s;
+	-webkit-transition:height linear 0.2s;
+}
 .codepenList .penList input[type=radio]:checked+section ul{height:164px;}
+.codepenList .articleList   input[type=radio]:checked+section p{height:30px; line-height:30px; padding:5px 0;}
 .codepenList .penList input[type=radio]:checked+section label:after{ 
 	border-top-width:0; 
 	border-bottom:10px solid #eee; 
@@ -99,7 +113,11 @@
 .codepenList .penList section ul li:nth-child(2):before{content:'HTML：';}
 .codepenList .penList section ul li:nth-child(3):before{content:'CSS：';}
 .codepenList .penList section ul li:nth-child(4):before{content:'JS：';}
+
 .codepenList .penList section ul li:nth-child(5){ text-align:center; padding:5px 0;}
+.codepenList .articleList section p{ text-align:center; }
+
+.codepenList .articleList section p a,
 .codepenList .penList section ul li:nth-child(5) a{
 	display:inline-block;
 	width:150px;

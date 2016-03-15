@@ -2,9 +2,9 @@
 	'use strict'
 	var tableObj={};
 	function setActiveLable(radio_id){
-		var activeEl = Q('#page4 li.active');
+		var activeEl = Q('#page3 li.active');
 		activeEl && activeEl.classList.remove('active');
-		var label = Q(`#page4 label[for=${radio_id}]`);
+		var label = Q(`#page3 label[for=${radio_id}]`);
 		label.parentElement.classList.add('active');
 	}
 	Array.prototype.forEach.call(document.querySelectorAll('#tableList input[name=tbRadio]'),el=>el.onchange=e=>{

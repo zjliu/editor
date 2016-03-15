@@ -88,38 +88,23 @@
 			<div class="header">
 				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
 			</div>
-			<article id="articleList" class="articleList"></article>
+			<article id="articleList" class="penList articleList"></article>
 			<script type="text/template" id="articleListTemplate">
 				<%data.forEach(function(item,index){%>
 					<input name="articleList_input" type="radio" id="articlelist_<%=index%>"<%=attr('checked',index===0)%>/>
 					<section>
-						<label for="articlelist_<%=index%>"><%=item.title%></label>
-						<ul>
-							<li><%=item.desc%></li>
-							<li class="source"><%=item.html%><a href="/editor/<%=item.htmlId%>"></a></li>
-							<li class="source"><%=item.css%><a href="/editor/<%=item.cssId%>"></a></li>
-							<li class="source"><%=item.js%><a href="/editor/<%=item.jsId%>"></a></li>
-							<li>
-								<a href="/pen/<%=item.pid%>">查看</a>
-								<a onclick="penModify(<%=item.pid%>,this)" href="javascript:void(0);">修改</a>
-								<a onclick="penDrop(<%=item.pid%>,this)">删除</a>
-							</li>
+						<label for="articlelist_<%=index%>" data-udate="<%=item.udate%>"><%=item.title%></label>
+						<p>
+							<a href="/article/<%=item.aid%>?type=md">查看</a>
+							<a href="/editor/<%=item.aid%>">编辑</a>
+							<a onclick="aritcleDrop(<%=item.aid%>,this)">删除</a>
+						</p>
 						</ul>
 					</section>
 				<%});%>
 			</script>
 		</div>
 		<div id="page3" class="page">
-			<input type="range" class="custom" />
-			<style>
-				input[type="range"].custom::-webkit-slider-runnable-track{ 
-					-webkit-appearance: none; 
-					background-color:red; 
-				}
-			</style>
-			<x-zjselect id="abx" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"type"} width="120"></x-zjselect>
-		</div>
-		<div id="page4" class="page">
 			<ul class="menu">
 				<li><label for="radio_all">所有表</label></li>
 				<li><label for="radio_add">添加表</label></li>
@@ -156,6 +141,9 @@
 					<x-zjtable id="data_tb" x_get_url="/db/get" x_update_url="/db/update" x_delay_init="true"></x-zjtable>
 				</div>
 			</div>
+		</div>
+		<div id="page4" class="page">
+			<x-zjselect id="abx" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"aType"} width="120"></x-zjselect>
 		</div>
 	</div>
 	<div id="dialog" class="dialog">

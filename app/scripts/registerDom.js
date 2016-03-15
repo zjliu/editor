@@ -27,8 +27,8 @@
 		window.menuData=[
 			{"href":"#page1","value":"作品列表","active":true},
 			{"href":"#page2","value":"博客列表"},
-			{"href":"#page3","value":"统计信息"},
-			{"href":"#page4","value":"表管理"}
+			{"href":"#page3","value":"表管理"},
+			{"href":"#page4","value":"测试"},
 		];
 		var listmenu_temp = G('listMenuTemplate');
 		var pro={

@@ -4,7 +4,7 @@
 	var selectTemplate = `
 		<div>
 			<span></span><a></a>
-			<select id="<%=data.id%>">
+			<select>
 				<%data.data.forEach(obj=>{%>
 					<option<%=attr('selected',obj.checked && "selected"||"")%> 
 						value="<%=unescape(obj.value)%>"><%=unescape(obj.key)%></option>
@@ -34,7 +34,7 @@
 			if(!data.success) return;
 			var checkedValue = this.getAttribute('value');
 			if(checkedValue) data.data.map(p=>{if(p.value==checkedValue){p.checked=1;return true;}});
-			root.innerHTML= selectFun({data:data.data,id:"abc"});
+			root.innerHTML= selectFun({data:data.data});
 			var selectEl = root.querySelector('select');
 			var self = this;
 			selectEl.onchange=function(e){

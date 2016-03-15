@@ -230,14 +230,30 @@ function loadCatList(){
 
 function loadBlogList(){
 	AjaxUtil.ajax({
-		url:'/pen/list',
-		type:'get',
-		data:{type:'list'},
+		url:'/blog/list',
+		type:'post',
+		data:{type:'main'},
 		success:function(data){
-			if(data && data.success === false) window.location.href="/login";
-			applyTemplate(data,'articleListTemplate',G('articleList'),true);
+			if(!data || !data.data.length) return;
+			applyTemplate(data.data,'articleListTemplate',G('articleList'),true);
 		},
 		error:function(info){console.log(info);}
 	});
+	function aritcleDrop(aid,el){
+		openConfirm('是否删除此博客？',function(result){
+			if(!result) return;
+			AjaxUtil.ajax({
+				url:'/article/delete',
+				type:'get',
+				data:{aid},
+				dataType:'json',
+				success:function(data){
+					if(data.success) window.location.reload();
+				},
+				error:function(info){ console.log(info); }
+			});
+		});
+	}
+	window.aritcleDrop=aritcleDrop;
 }
 
