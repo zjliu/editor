@@ -9,27 +9,12 @@
     <link href="/scripts/codemirror/lib/codemirror.css" rel="stylesheet" />
     <link href="/scripts/codemirror/theme/3024-night.css" rel="stylesheet" />
 	<link href="/scripts/codemirror/addon/fold/foldgutter.css" rel="stylesheet" />
-	<script src="/scripts/codemirror/lib/codemirror.js"></script>
-	<script src="/scripts/codemirror/lib/codemirror-plugins.js"></script>
 	<!--menu-->
     <link href="/styles/menu.css" rel="stylesheet" />
-	<script src="/scripts/AjaxUtil.js"></script>
 	<!--contentmenu-->
     <link href="/styles/contextmenu.css" rel="stylesheet" />
-	<!--login-->
-    <link href="/styles/login.css" rel="stylesheet" />
-	<!--dialog-->
-    <link href="/styles/dialog.css" rel="stylesheet" />
-	<script src="/scripts/dialog.js"></script>
 	<!--layout-->
     <link href="/styles/layout.css" rel="stylesheet" />
-	<!--download-->
-    <script src="/scripts/download.js"></script>
-	<!-- template.js -->
-	<script src="/src/JunTemplate.js"></script>
-	<!--zjselect-->
-    <link href="/styles/zjSelect.css" rel="stylesheet" />
-	<script src="/scripts/zjSelect.js"></script>
 </head>
 <body>
 	<div id="edit" class="page slidedown">
@@ -64,6 +49,10 @@
 			</div>
 			<div class="showTools">
 				<a class="view-blog" title="查看效果"></a>
+				<div class="blog-type">
+					<input type="radio" value="1" checked="checked" name="isProgram">技术
+					<input type="radio" value="0" name="isProgram">感想
+				</div>
 			</div>
 			<label class="toolsTogger" for="toolsCB" title="显示设置"><span></span></label>
 			<textarea id="code"></textarea>
@@ -101,7 +90,7 @@
 		</ul>
 	</div>
 	<div id="dialog" class="dialog">
-		<label class="close closeBtn" title="关闭">+</label>
+		<label class="close closeBtn" title="关闭"></label>
 		<div class="container"></div>
 	</div>
 	<div id='mask' class="mask"></div>
@@ -162,7 +151,15 @@
 			<div data-type="concel" class="commonbtn confirmbtn close"><%=data.cancel%></div>
 		</div>
 	</script>
-
+	<script src="/scripts/codemirror/lib/codemirror.js"></script>
+	<script src="/scripts/codemirror/lib/codemirror-plugins.js"></script>
+    <link href="/styles/dialog.css" rel="stylesheet" />
+	<script src="/scripts/dialog.js"></script>
+	<script src="/scripts/AjaxUtil.js"></script>
+    <script src="/scripts/download.js"></script>
+	<script src="/src/JunTemplate.js"></script>
+    <link href="/styles/zjSelect.css" rel="stylesheet" />
+	<script src="/scripts/zjSelect.js"></script>
 	<script src="/scripts/edit.js"></script>
 </body>
 </html>

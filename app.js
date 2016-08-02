@@ -92,6 +92,13 @@ app.get('/category',function(req,res){
 	});
 });
 
+app.post('/category',function(req,res){
+	var isAll = req.body.type === "all";
+	Q.getArticleList(function(data){
+		res.json(data);
+	},isAll);
+});
+
 app.param('aid',/^\d+$/);
 app.get('/article/:aid',function(req,res){
 	Q.getArticle(req.params.aid,function(data){

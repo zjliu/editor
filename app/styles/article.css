@@ -12,7 +12,7 @@ body{
 	-webkit-user-select: none;
 }
 .width-wrapper{
-	max-width:1200px;
+	max-width:90%;
 	margin:0 auto;
 	font-size:0;
 	position:relative;

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>家庭医生</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="format-detection" content="telephone=no">
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="./css/reset.css">
+		<script src="/src/JunTemplate.js"></script>
+        <script type="text/javascript" >
+            !function(){
+                function setRem(){
+                    var zoom = document.documentElement.clientWidth / 640;
+                    if(zoom > 1) zoom = 1;
+                    document.documentElement.style.fontSize = 100 * zoom + 'px';
+                }
+                window.onresize = setRem;
+                setRem();
+            }();
+        </script>
+		<style>
+			body{
+				font-size:0.37rem;
+				color:#000;
+				background-color:#f2f2f2;
+			}
+			body>p{
+				font-size:0.32rem;
+				text-align:center;
+				padding:0.32rem 0;
+			}
+			article{
+				padding:0 0.2rem;
+			}
+			.tab{
+				background-color:#fff;
+				border:1px solid #e5e5e5;	
+				border-radius:3px;
+				margin-bottom:0.2rem;
+			}
+			.tab .items{
+			}
+			.tab>p{
+				text-indent:0.2rem;
+				font-size:0.32rem;
+				line-height:0.66rem;
+				border-top-left-radius:3px;
+				border-top-right-radius:3px;
+			}
+			.tab .items .item{
+				position:relative;
+				padding:0 0.2rem;
+				line-height:1.2rem;
+				border-top:1px solid #e7e7e7;
+			}
+			.tab .items .item>label{
+				vertical-align: middle;
+			}
+			.tab .items .item>input[type="text"]{
+				position:absolute;
+				top:0; bottom:0; right:0.2rem; margin:auto;
+				-webkit-tap-highlight-color: transparent;
+				text-align:right;
+				width:2.8rem;
+				height:1rem;
+				border:none;
+			}
+			article .tab:first-child p{ background-color:#64c568; }
+			article .tab:nth-child(2) p{ background-color:#5bb0ec; }
+			article .tab:nth-child(3) p{ background-color:#ffb14e; }
+			article .tab:nth-child(4) p{ background-color:#b3b3b3; }
+		</style>
+    </head>
+<body>
+<p>您的信息为保密状态，仅医患双方可见</p>
+<div class="article"></div>
+<article id="container">
+
+</article>
+</body>
+</html>
+<script id="form_tpl" type="tpl-javascript">
+    <%data.forEach(function(item){%>
+        <section class="tab <%=item.tab%>">
+            <p><%=item.text%></p>
+            <div class="items">
+                <%item.fileds.forEach(function(filed){%>
+                    <div class="item">
+                        <label><%=filed.label%></label>
+                        <%switch(filed.type){case "text":%>
+                                <input data-filed="<%=filed.filed%>" placeholder="<%=filed.placeholder%>" type="text" />
+                            <%break;case "radio":%>
+                                <%filed.data.forEach(function(idata){%>
+                                    <input type="radio" name="<%=idata.text%>" />
+                                    <label><%=idata.value%></label>
+                                <%});break;%>
+                        <%}%>
+                    </div>
+                <%});%>
+            </div>
+        </section>
+    <%});%>
+</script>
+<script>
+var data = [
+    {
+        tab:'base_info',
+        text:'基本信息',
+        fileds:[
+            {
+                filed:'',
+                label:'患者姓名：',
+                type:'text',
+                placeholder:'请填写真实姓名',
+                check:{
+                   reg:/^.{1,20}$/,
+                   emptyMsg:'',
+                   errorMsg:'' 
+                }
+            },
+            {
+                filed:'',
+                label:'患者性别：',
+                type:'radio',
+                data:[{text:'男',value:1},{text:'女',value:2}],
+                placeholder:'',
+                check:{
+                   reg:/^.{1,20}$/,
+                   emptyMsg:'',
+                   errorMsg:'' 
+                }
+            },
+            {
+                filed:'',
+                label:'患者性别：',
+                type:'radio',
+                data:[{text:'男',value:1},{text:'女',value:2}],
+                placeholder:'',
+                check:{
+                   reg:/^.{1,20}$/,
+                   emptyMsg:'',
+                   errorMsg:'' 
+                }
+            },
+            {
+                filed:'',
+                label:'出生日期：',
+                type:'datatime',
+                placeholder:'请选择出生日期',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            },
+            {
+                filed:'',
+                label:'联系电话：',
+                type:'text',
+                placeholder:'请填写手机号码',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            },
+            {
+                filed:'height',
+                label:'身高：',
+                type:'span',
+                value:'163cm'
+            },
+            {
+                filed:'weight',
+                label:'体重：',
+                type:'span',
+                value:'78kg'
+            },
+            {
+                label:'BMI：',
+                type:'span',
+                value:function(height,weight){
+                    height = parseFloat(height);
+                    weight = parseFloat(weight);
+                    return (weight/Math.pow(height/100,2)).toFixed(1);
+                }
+            }
+        ]
+    },{
+        tab:'illness',
+        text:'病情信息',
+        fileds:[
+            {
+                filed:'',
+                label:'糖尿病类型：',
+                type:'text',
+                openMethod:'dialog',
+                dialog_data:{
+                    title:'糖尿病类型',
+                    data:[
+                        {name:'Ⅰ型',value:'Ⅰ型'},
+                        {name:'Ⅱ型',value:'Ⅱ型'},
+                        {name:'特殊型',value:'特殊型'},
+                        {name:'未确诊',value:'未确诊'},
+                        {name:'妊娠型',value:'妊娠型'}
+                    ]
+                },
+                placeholder:'请选择糖尿病类型',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            },
+            {
+                filed:'',
+                label:'使用者糖龄：',
+                type:'text',
+                placeholder:'请选择糖龄',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            },
+            {
+                filed:'',
+                label:'是否使用胰岛素：',
+                type:'radio',
+                data:[{text:'是',value:1},{text:'否',value:0}],
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            },
+            {
+                filed:'',
+                label:'是否有并发症：',
+                type:'dialog',
+                dialog_data:{
+                    title:'选择并发症',
+                    data:[
+                        {text:'糖尿病肾病',value:'糖尿病肾病'},
+                        {text:'糖尿病眼部并发症',value:'糖尿病眼部并发症'},
+                        {text:'糖尿病足',value:'糖尿病足'},
+                        {text:'糖尿病心血管',value:'糖尿病心血管'},
+                        {text:'其它',value:'',placeholder:'请填写其它并发症'}
+                    ]
+                },
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }
+            }            
+        ]
+    },{
+        tab:'other_info',
+        text:'其它信息',
+        fileds:[
+            {
+                filed:'',
+                label:'血糖仪码：',
+                type:'label'
+            },
+            {
+                filed:'',
+                label:'备注：',
+                type:'text',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }               
+            }
+        ]
+    },{
+        tab:'emgency_info',
+        text:'紧急联系人信息',
+        fileds:[
+            {
+                filed:'',
+                label:'紧急联系人：',
+                type:'text',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }                
+            },{
+                filed:'',
+                label:'与患者关系：',
+                type:'dialog',
+                placeholder:'请选择'
+            },{
+                filed:'',
+                label:'联系人电话：',
+                type:'text',
+                placeholder:'请填写联系人手机号码',
+                check:{
+                    reg:/^$/,
+                    emptyMsg:'',
+                    errorMsg:''
+                }                
+            }
+        ]
+    }
+];
+
+var fun = template(G('form_tpl').innerHTML);
+
+G('container').innerHTML = fun(data);
+
+</script>

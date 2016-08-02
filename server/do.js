@@ -54,12 +54,14 @@ function getCategoryList(callback){
 	});
 }
 
-function getArticleList(callback){
+function getArticleList(callback,isAll){
 	queryArticleType(function(arr){
 		for(var obj={},i=0,l=arr.length;i<l;i++){
 			obj[i]=arr[i][1];
 		}
-		var sql = "select cid,aid,title from article where type>0";
+		var sql = "select cid,aid,title,type from article";
+		if(!isAll) sql+=" where type>0";
+		sql+=' order by type,udate desc';
 		query(sql,function(data){
 			data.forEach(p=>p.cname=obj[p.cid]);
 			callback && callback(data);
@@ -359,7 +361,7 @@ function getPenList(param,callback){
 		var pageSize = 6;
 		query('select count(*) count from codepen where userId=1',function(data){
 			var obj = {page_count:data[0].count,page_size:pageSize};
-			var sql = `select * from codepen where userId=1 limit ${pageSize} offset ${pageSize*index}`;
+			var sql = `select * from codepen where userId=1 order by udate desc limit ${pageSize} offset ${pageSize*index}`;
 			query(sql,function(data){
 				obj.data = data;
 				callback && callback(obj);
@@ -370,17 +372,17 @@ function getPenList(param,callback){
 
 function getBlogList(params,callback){
 	if(params.type==="main"){
-		query(`select aid,title,udate from article where cid=3 and type=0 order by udate desc`,function(data){
+		query(`select aid,title,udate from article where cid=3 and type=1 order by udate desc`,function(data){
 			callback && callback(true,data);
 		});
 	}
 	else{
 		var index = ~~params.index || 0;
 		var pageSize = 6;
-		query('select count(*) count from article where cid=3 and type=0',function(data){
+		query('select count(*) count from article where cid=3 and type=1',function(data){
 			var obj = {page_count:data[0].count,page_size:pageSize};
 			var offset = pageSize*index;
-			var sql=`select aid,title,udate from article where cid=3 and type=0 order by udate desc limit ${pageSize} offset ${offset}`
+			var sql=`select aid,title,udate from article where cid=3 and type=1 order by udate desc limit ${pageSize} offset ${offset}`
 			query(sql,function(data){
 				obj.data = data;
 				callback && callback(true,obj);
@@ -724,6 +726,9 @@ function queryObjDBData(params,callback){
 			var obj={};
 			row.forEach((col,index)=>{
 				let c = tbData[index];
+				if(!c) {
+					return;
+				}
 				obj[c.name]=(c.name==='type'?c.data[col]:col);
 			});
 			return obj;

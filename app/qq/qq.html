@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh_cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <link href="styles/reset.css" rel="stylesheet" />
+	<style>
+		header{
+			background-color:#428bef;
+			padding:25px 21px;
+			overflow:hidden;
+		}
+		header figure{
+			width:45px;
+			height:45px;
+			border-radius:5px;
+			overflow:hidden;
+			float:left;
+		}
+		header figure img{
+			max-width:100%;
+		}
+		header .tip{
+			height:45px;
+			padding-left:65px;
+		}
+		header .tip span{
+			position:relative;
+			display:block;
+			height:45px;
+			line-height:45px;
+			border-radius:10px;
+			color:#a5a5a5;
+			background:#fff;
+			text-indent:15px;
+		}
+		header .tip span:before{
+			content:'';
+			position:absolute;
+			top:0;bottom:0;margin:auto;
+			left:-15px;
+			width:0;height:0;
+			border-left:10px solid transparent;
+			border-right:10px solid transparent;
+			border-bottom:15px solid #fff;
+			background:transparent;
+			transform:rotate(-90deg);
+			-webkit-transform:rotate(-90deg);
+		}
+		header .info{ font-size:14px; padding:5px 0; }
+		header .info span{
+			color:#fff;
+			display:block;
+			width:45px;
+			text-align:center;
+		}
+
+		article .date{
+			text-align:center;
+		}
+		article .date .date-list{
+			list-style:none;
+			display:inline-block;
+			margin:auto;
+			overflow:hidden;
+			padding:25px 18px;
+		}
+		article .date .date-list li{
+			position:relative;
+			width:64px;
+			height:64px;
+			margin:0px 5px 5px 0px;
+			font-size:14px;
+			border:1px solid #a5a5a5;
+			border-radius:5px;
+			float:left;
+		}
+		article .date .date-list li.active,
+		article .date .date-list li:hover{
+			background:#ecf3fd;
+		}
+		article .date .date-list li.active:after,
+		article .date .date-list li:hover:after{
+			content:'';
+			position:absolute;
+			bottom:3px;right:0;
+			width:8px;
+			height:4px;
+			border-left:2px solid #fff;
+			border-bottom:2px solid #fff;
+			transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+		}
+		article .date .date-list li.active:before,
+		article .date .date-list li:hover:before{
+			content:'';
+			position:absolute;
+			color:#428bef;
+			background-color:currentColor;
+			border-left:20px solid transparent;
+			border-right:0px solid transparent;
+			border-bottom:16px solid currentcolor;
+			background:transparent;
+			bottom:0;
+			right:0;
+		}
+		article .date .date-list dl{
+			position:absolute;
+			width:50px;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			-webkit-transform:translate(-50%,-50%);
+			text-align:center;
+		}
+		article .date .date-list dl dd{
+			color:#a5a5a5;
+			margin-top:5px;
+		}
+		article .infolist{
+			font-size:16px;
+			padding:0 25px;
+		}
+		article .infolist .time-list{
+			list-style:none;
+		}
+		article .infolist .time-list li{
+			position:relative;
+			padding:22px 5px;
+		}
+		article .infolist .time-list li:first-child:before,
+		article .infolist .time-list li:after{
+			content:'';
+			width:100%;
+			position:absolute;
+			bottom:0;left:0;
+			height:1px;
+			background:#a5a5a5;
+			transform:scaleY(0.2);
+			-webkit-transform:scaleY(0.2);
+		}
+		article .infolist .time-list li:first-child:before{
+			bottom:auto;
+			top:0;
+		}
+		article .infolist .time-list li span{
+			position:absolute;
+			top:0;bottom:0;right:20px;margin:auto;
+			width:68px;
+			height:25px;
+			line-height:25px;
+			border-radius:5px;
+			color:#a5a5a5;
+			background-color:#f6f6f6;
+			text-align:center;
+		}
+		article .infolist .time-list li.active span{
+			color:#fff;
+			background-color:#428bef;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div>
+			<figure name="陆伟">
+				<img src="images/portrait.jpg">
+				<p></p>
+			</figure>
+			<div class="tip">
+				<span>请选择预约时间</span>
+			</div>
+		</div>
+		<div class="info"><span>陆伟</span></div>
+	</header>
+	<article>
+		<section class="date">
+			<ul class="date-list">
+				<li> <dl><dt>07-28</dt><dd>明天</dd></dl> </li>
+				<li> <dl><dt>07-29</dt><dd>后天</dd></dl> </li>
+				<li> <dl><dt>08-03</dt><dd>下周一</dd></dl> </li>
+				<li> <dl><dt>08-04</dt><dd>下周二</dd></dl> </li>
+			</ul>
+		</section>
+		<section class="infolist">
+			<ul class="time-list">
+				<li class="active">上午门诊<span>预约</span></li>
+				<li>下午门诊<span>已满</span></li>
+			</ul>
+		</section>
+	</article>
+</body>
+</html>

@@ -33,6 +33,7 @@ window.onhashchange=hashchange;
 var PageLoader={
 	penlist:{ init:loadPenList, loaded:false },
 	bloglist:{ init:loadBlogList, loaded:false },
+	doclist:{init:loadDocList, loaded:false},
 	catlist:{ init:loadCatList, loaded:false }
 }
 
@@ -257,3 +258,24 @@ function loadBlogList(){
 	window.aritcleDrop=aritcleDrop;
 }
 
+function loadDocList(){
+	var docTemplate=`
+		<ul>
+			<%data.forEach(function(doc){%>
+				<li atype="<%=doc.type%>" ctype="<%=doc.cname%>"><%=doc.title%>
+					<a href="/editor/<%=doc.aid%>" target="_black"></a>
+				</li>
+			<%});%>
+		</ul>
+	`;
+	var templateFun = template(docTemplate);
+	var promise = ajax({url:'/category',type:'post',data:{"type":"all"}});
+	promise.then(function(data){
+		var result=templateFun(data);
+		/*
+		var dom=GetHTMLFragment(result);
+		G('docList').appendChild(dom);
+		*/
+		G('docList').innerHTML= result;
+	});
+}

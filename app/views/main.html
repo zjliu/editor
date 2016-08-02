@@ -47,6 +47,7 @@
 			<div class="header">
 				<pen-btn id="createBtn" data-value="新建作品"></pen-btn>
 				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
+				<pen-btn data-href="/works" data-value="作品列表"></pen-btn>
 			</div>
 			<article id="penList" class="penList"></article>
 			<script type="text/template" id="penListTemplate">
@@ -87,6 +88,7 @@
 		<div id="page2" data-fun="bloglist" class="page codepenList bloglist">
 			<div class="header">
 				<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
+				<pen-btn data-href="/articles" data-value="博客列表"></pen-btn>
 			</div>
 			<article id="articleList" class="penList articleList"></article>
 			<script type="text/template" id="articleListTemplate">
@@ -142,7 +144,11 @@
 				</div>
 			</div>
 		</div>
-		<div id="page4" class="page">
+		<div id="page4" data-fun="doclist" class="page doclist">
+			<pen-btn data-href="/editor" data-value="新建文件"></pen-btn>
+			<section id="docList"></section>
+		</div>
+		<div id="page5" class="page">
 			<x-zjselect id="abx" x_get_url="/db/getObjData" x_tb_name="keyValue" x_tb_where={"name":"aType"} width="120"></x-zjselect>
 		</div>
 	</div>

@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<style>
+			html,body{margin:0;padding:0;}
+			article{height:100%;position:relative;}
+			article div{ height:100%;}
+			article div:first-child{
+				position:absolute;
+				top:0;left:0;
+				background:red;
+				width:50px;
+			}
+			article div:nth-child(2){
+				background:black;
+				margin:0 50px;
+			}
+			article div:last-child{
+				position:absolute;
+				top:0;right:0;
+				background:yellow;
+				width:50px;
+			}
+		</style>
+	</head>
+	<body>
+		<article>
+			<div></div>
+			<div></div>
+			<div></div>
+		</article>
+	</body>
+</html>
+<script>
+	Array.prototype.findSecondMax=function(){
+		//方法1：
+		for(var i=0,obj={};i<this.length;i++) obj[this[i]]=i;
+		var reArr=Object.keys(obj);
+		return ~~reArr[reArr.length-2];
+	}
+
+	function matchKH(str){
+		arr=str.split('()');
+		var result = [];
+		for(var i=0,l=arr.length;i<l-1;i++){
+			var cur=arr[i],next=arr[i+1],ml=cur.length>next.length?next.length:cur.length;
+			var nstr = '()';
+			for(var n=0;n<ml;n++){
+				if(cur[n]==='(' && next[n]===')') nstr='('+nstr+')';
+				else break;
+			}
+			result.push(nstr);
+		}
+		return result;
+	}
+</script>

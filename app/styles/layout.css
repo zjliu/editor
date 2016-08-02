@@ -148,8 +148,28 @@ body {
 	left:30px;
 }
 
+.content .showTools .blog-type{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:40px;
+	margin:auto;
+	width:100px;
+	height:16px;
+	color:#fff;
+	font-size:12px;
+	vertical-align:sub;
+}
+
+.content .showTools .blog-type input{
+	vertical-align:sub;
+}
+
 .content .view-blog{
-	display:inline-block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	margin:auto;
 	width:30px;
 	height:20px;
 	border-radius:15px/10px;
@@ -159,7 +179,7 @@ body {
 	display:none;
 }
 
-.markdown .content .view-blog{ display:inline-block; }
+.markdown .content .view-blog{ display:inline-block; vertical-align:top;}
 .markdown .content .view-blog.new_markdown{display:none;}
 
 .content .view-blog:before{
